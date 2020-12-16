@@ -18,11 +18,11 @@ public class Order {
     private String number;
     @Enumerated(EnumType.STRING)
     private Status status;
-    @OneToMany
+    @OneToMany(mappedBy = "order")
     private List<Waypoint> waypointList;
     @ManyToOne
     private Wagon wagon;
-    @OneToMany
+    @ManyToMany
     private List<Driver> drivers;
 
     @AllArgsConstructor
