@@ -10,10 +10,7 @@ import javax.persistence.*;
 @Entity
 @Data
 @NoArgsConstructor
-public class Driver {
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Id
-    private Integer id;
+public class Driver extends User{
     private String name;
     private String surname;
     private String identityNumber;
@@ -24,14 +21,18 @@ public class Driver {
     private City currentCity;
     @ManyToOne
     private Wagon wagon;
-
     @AllArgsConstructor
     @Getter
     public enum Status{
         REST("Отдых"),
         WORK_SHIFT("В смене"),
         DRIVE("За рулем");
-        private final String name;
 
+        private final String name;
+    }
+
+    @Override
+    public Role getRole() {
+        return Role.DRIVER;
     }
 }

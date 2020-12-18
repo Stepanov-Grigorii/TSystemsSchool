@@ -23,8 +23,9 @@ public class Order {
     private List<Waypoint> waypointList;
     @ManyToOne
     private Wagon wagon;
-    @ManyToMany
-    private List<Driver> drivers;
+//TODO уточнить.
+//    @ManyToMany
+//    private List<Driver> drivers;
 
     @AllArgsConstructor
     @Getter

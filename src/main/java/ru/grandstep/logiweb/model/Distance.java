@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 
 @Entity
 @Data
@@ -16,5 +17,5 @@ public class Distance {
     private City first;
     @ManyToOne
     private City second;
-    private Double distance;
+    private BigDecimal distance;
 }
