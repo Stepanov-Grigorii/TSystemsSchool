@@ -1,37 +1,33 @@
 package ru.grandstep.logiweb.repository;
 
-import lombok.RequiredArgsConstructor;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import ru.grandstep.logiweb.model.City;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.List;
 
 @Repository
-@RequiredArgsConstructor
 public class CityRepository {
-    private final SessionFactory sessionFactory;
+    @PersistenceContext
+    private EntityManager entityManager;
 
     public City getById(Integer id){
-        try (Session session = sessionFactory.openSession()){
-            return session.get(City.class, id);
+        City city = entityManager.find(City.class, id);
+        if(city == null){
+            throw new RuntimeException("city with id" + id + " not found");
         }
+        return city;
     }
 
     public List<City> getAll(){
-        try(Session session = sessionFactory.openSession()){
-            return session.createQuery("FROM City", City.class).list();
-        }
+        List<City> cities = (List<City>) entityManager.createQuery("SELECT c FROM City c", City.class).getResultList();
+        return cities;
     }
 
+    @Transactional
     public City saveOrUpdate(City city){
-        try (Session session = sessionFactory.openSession()){
-            Transaction transaction = session.beginTransaction();
-            session.saveOrUpdate(city);
-            transaction.commit();
-            return city;
-        }
+        return entityManager.merge(city);
     }
 }

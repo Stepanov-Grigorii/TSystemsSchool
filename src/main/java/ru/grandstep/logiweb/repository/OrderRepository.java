@@ -1,37 +1,35 @@
 package ru.grandstep.logiweb.repository;
 
-import lombok.RequiredArgsConstructor;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import ru.grandstep.logiweb.model.Order;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.List;
 
 @Repository
-@RequiredArgsConstructor
 public class OrderRepository {
-    private final SessionFactory sessionFactory;
+    @PersistenceContext
+    private EntityManager entityManager;
 
     public Order getById(Integer id){
-        try (Session session = sessionFactory.openSession()){
-            return session.get(Order.class, id);
+        Order order = entityManager.find(Order.class, id);
+        if(order == null){
+            throw new RuntimeException("order with id" + id + " not found");
         }
+        return order;
     }
 
     public List<Order> getAll(){
-        try(Session session = sessionFactory.openSession()){
-            return session.createQuery("FROM Order", Order.class).list();
-        }
+        List<Order> orders = (List<Order>) entityManager.createQuery("SELECT o FROM Order o", Order.class).getResultList();
+        return orders;
     }
 
+    @Transactional
     public Order saveOrUpdate(Order order){
-        try (Session session = sessionFactory.openSession()){
-            Transaction transaction = session.beginTransaction();
-            session.saveOrUpdate(order);
-            transaction.commit();
-            return order;
-        }
+        return entityManager.merge(order);
     }
 }

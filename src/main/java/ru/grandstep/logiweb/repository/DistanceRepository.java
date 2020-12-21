@@ -1,37 +1,33 @@
 package ru.grandstep.logiweb.repository;
 
-import lombok.RequiredArgsConstructor;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import ru.grandstep.logiweb.model.Distance;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.List;
 
 @Repository
-@RequiredArgsConstructor
 public class DistanceRepository {
-    private final SessionFactory sessionFactory;
+    @PersistenceContext
+    private EntityManager entityManager;
 
     public Distance getById(Integer id){
-        try (Session session = sessionFactory.openSession()){
-            return session.get(Distance.class, id);
+        Distance distance = entityManager.find(Distance.class, id);
+        if(distance == null){
+            throw new RuntimeException("distance with id" + id + " not found");
         }
+        return distance;
     }
 
     public List<Distance> getAll(){
-        try(Session session = sessionFactory.openSession()){
-            return session.createQuery("FROM Distance", Distance.class).list();
-        }
+        List<Distance> distances = (List<Distance>) entityManager.createQuery("SELECT d FROM Distance d", Distance.class).getResultList();
+        return distances;
     }
 
+    @Transactional
     public Distance saveOrUpdate(Distance distance){
-        try (Session session = sessionFactory.openSession()){
-            Transaction transaction = session.beginTransaction();
-            session.saveOrUpdate(distance);
-            transaction.commit();
-            return distance;
-        }
+        return entityManager.merge(distance);
     }
 }

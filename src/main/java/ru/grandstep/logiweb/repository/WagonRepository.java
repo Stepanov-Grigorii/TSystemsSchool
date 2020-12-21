@@ -1,37 +1,33 @@
 package ru.grandstep.logiweb.repository;
 
-import lombok.RequiredArgsConstructor;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import ru.grandstep.logiweb.model.Wagon;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.List;
 
 @Repository
-@RequiredArgsConstructor
 public class WagonRepository {
-    private final SessionFactory sessionFactory;
+    @PersistenceContext
+    private EntityManager entityManager;
 
     public Wagon getById(Integer id){
-        try (Session session = sessionFactory.openSession()){
-            return session.get(Wagon.class, id);
+        Wagon wagon = entityManager.find(Wagon.class, id);
+        if(wagon == null){
+            throw new RuntimeException("wagon with id" + id + " not found");
         }
+        return wagon;
     }
 
     public List<Wagon> getAll(){
-        try(Session session = sessionFactory.openSession()){
-            return session.createQuery("FROM Wagon", Wagon.class).list();
-        }
+        List<Wagon> wagons = (List<Wagon>) entityManager.createQuery("SELECT w FROM Wagon w",  Wagon.class).getResultList();
+        return wagons;
     }
 
+    @Transactional
     public Wagon saveOrUpdate(Wagon wagon){
-        try (Session session = sessionFactory.openSession()){
-            Transaction transaction = session.beginTransaction();
-            session.saveOrUpdate(wagon);
-            transaction.commit();
-            return wagon;
-        }
+        return entityManager.merge(wagon);
     }
 }

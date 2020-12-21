@@ -1,37 +1,33 @@
 package ru.grandstep.logiweb.repository;
 
-import lombok.RequiredArgsConstructor;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import ru.grandstep.logiweb.model.Waypoint;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.List;
 
 @Repository
-@RequiredArgsConstructor
 public class WaypointRepository {
-    private final SessionFactory sessionFactory;
+    @PersistenceContext
+    private EntityManager entityManager;
 
     public Waypoint getById(Integer id){
-        try (Session session = sessionFactory.openSession()){
-            return session.get(Waypoint.class, id);
+        Waypoint waypoint = entityManager.find(Waypoint.class, id);
+        if(waypoint == null){
+            throw new RuntimeException("Waypoint with id" + id + " not found");
         }
+        return waypoint;
     }
 
     public List<Waypoint> getAll(){
-        try(Session session = sessionFactory.openSession()){
-            return session.createQuery("FROM Waypoint", Waypoint.class).list();
-        }
+        List<Waypoint> waypointList = (List<Waypoint>) entityManager.createQuery("SELECT w FROM Waypoint w", Waypoint.class).getResultList();
+        return waypointList;
     }
 
+    @Transactional
     public Waypoint saveOrUpdate(Waypoint waypoint){
-        try (Session session = sessionFactory.openSession()){
-            Transaction transaction = session.beginTransaction();
-            session.saveOrUpdate(waypoint);
-            transaction.commit();
-            return waypoint;
-        }
+        return entityManager.merge(waypoint);
     }
 }
