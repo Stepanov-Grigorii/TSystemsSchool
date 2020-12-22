@@ -9,7 +9,7 @@
     <c:forEach var="driver" items="${drivers}">
         <li>
             <c:url value="/drivers/form/${driver.id}" var="editDriver"/>
-                ${driver.id} ${driver.name} ${driver.surname} <a href="${editDriver}"><button>Редактировать</button></a>
+                ${driver.identityNumber} ${driver.name} ${driver.surname} <a href="${editDriver}"><button>Редактировать</button></a>
         </li>
     </c:forEach>
 </ul>

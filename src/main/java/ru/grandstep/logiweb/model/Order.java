@@ -23,15 +23,13 @@ public class Order {
     private List<Waypoint> waypointList;
     @ManyToOne
     private Wagon wagon;
-//TODO уточнить.
-//    @ManyToMany
-//    private List<Driver> drivers;
 
     @AllArgsConstructor
     @Getter
     public enum Status{
-        COMPLETED("Выполнен"),
-        PROCESS("В процессе");
+        WAITING("Ожидание"),//TODO уточнить
+        PROCESS("В процессе"),
+        COMPLETED("Выполнен");
         private final String name;
     }
 }

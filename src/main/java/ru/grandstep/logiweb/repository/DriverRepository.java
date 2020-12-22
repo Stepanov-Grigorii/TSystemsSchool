@@ -22,8 +22,13 @@ public class DriverRepository {
     }
 
     public List<Driver> getAll(){
-        List<Driver> drivers = (List<Driver>) entityManager.createQuery("SELECT d FROM Driver d", Driver.class).getResultList();
+        List<Driver> drivers = (List<Driver>) entityManager.createQuery("SELECT d FROM Driver d").getResultList();
         return drivers;
+    }
+
+    public List<String> getIds(){
+        List<String> ids = (List<String>) entityManager.createQuery("SELECT d.identityNumber FROM Driver d").getResultList();
+        return ids;
     }
 
     @Transactional
