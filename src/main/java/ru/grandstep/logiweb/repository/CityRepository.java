@@ -22,7 +22,7 @@ public class CityRepository {
     }
 
     public List<City> getAll(){
-        List<City> cities = (List<City>) entityManager.createQuery("SELECT c FROM City c", City.class).getResultList();
+        List<City> cities = (List<City>) entityManager.createQuery("SELECT c FROM City c").getResultList();
         return cities;
     }
 

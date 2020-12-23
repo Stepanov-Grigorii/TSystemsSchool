@@ -22,7 +22,7 @@ public class CargoRepository {
     }
 
     public List<Cargo> getAll(){
-        List<Cargo> cargos = (List<Cargo>) entityManager.createQuery("SELECT c FROM Cargo c", Cargo.class).getResultList();
+        List<Cargo> cargos = (List<Cargo>) entityManager.createQuery("SELECT c FROM Cargo c").getResultList();
         return cargos;
     }
 

@@ -22,7 +22,7 @@ public class DistanceRepository {
     }
 
     public List<Distance> getAll(){
-        List<Distance> distances = (List<Distance>) entityManager.createQuery("SELECT d FROM Distance d", Distance.class).getResultList();
+        List<Distance> distances = (List<Distance>) entityManager.createQuery("SELECT d FROM Distance d").getResultList();
         return distances;
     }
 
