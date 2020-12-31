@@ -27,7 +27,7 @@ public class Order {
     @AllArgsConstructor
     @Getter
     public enum Status{
-        WAITING("Ожидание"),//TODO уточнить
+        WAITING("Ожидание"),
         PROCESS("В процессе"),
         COMPLETED("Выполнен");
         private final String name;

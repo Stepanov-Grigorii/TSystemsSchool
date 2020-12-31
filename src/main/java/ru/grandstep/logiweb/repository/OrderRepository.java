@@ -24,8 +24,7 @@ public class OrderRepository {
     }
 
     public List<Order> getAll(){
-        List<Order> orders = (List<Order>) entityManager.createQuery("SELECT o FROM Order o").getResultList();
-        return orders;
+        return (List<Order>) entityManager.createQuery("SELECT o FROM Order o").getResultList();
     }
 
     @Transactional

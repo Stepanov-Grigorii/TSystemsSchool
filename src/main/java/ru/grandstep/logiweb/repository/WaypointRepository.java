@@ -22,8 +22,7 @@ public class WaypointRepository {
     }
 
     public List<Waypoint> getAll(){
-        List<Waypoint> waypointList = (List<Waypoint>) entityManager.createQuery("SELECT w FROM Waypoint w").getResultList();
-        return waypointList;
+        return (List<Waypoint>) entityManager.createQuery("SELECT w FROM Waypoint w").getResultList();
     }
 
     @Transactional

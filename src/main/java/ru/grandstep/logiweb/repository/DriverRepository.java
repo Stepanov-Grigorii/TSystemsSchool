@@ -6,6 +6,7 @@ import ru.grandstep.logiweb.model.Driver;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import java.util.List;
 
 @Repository
@@ -22,17 +23,22 @@ public class DriverRepository {
     }
 
     public List<Driver> getAll(){
-        List<Driver> drivers = (List<Driver>) entityManager.createQuery("SELECT d FROM Driver d").getResultList();
-        return drivers;
+        return (List<Driver>) entityManager.createQuery("SELECT d FROM Driver d").getResultList();
     }
 
-    public List<String> getIds(){
-        List<String> ids = (List<String>) entityManager.createQuery("SELECT d.identityNumber FROM Driver d").getResultList();
-        return ids;
+    public List<String> getIdentityNumbers(){
+        return (List<String>) entityManager.createQuery("SELECT d.identityNumber FROM Driver d").getResultList();
     }
 
     @Transactional
     public Driver saveOrUpdate(Driver driver){
         return entityManager.merge(driver);
+    }
+
+    @Transactional
+    public void delete(Integer id){
+        Query query = entityManager.createQuery("DELETE FROM Driver d WHERE d.id = :id");
+        query.setParameter("id", id);
+        query.executeUpdate();
     }
 }

@@ -14,7 +14,8 @@ import java.util.Properties;
 @EnableTransactionManagement
 public class HibernateConfig {
 
-    private DataSource dataSource(){
+    @Bean
+    public DataSource dataSource(){
         BasicDataSource basicDataSource = new BasicDataSource();
         basicDataSource.setUsername("postgres");
         basicDataSource.setPassword("12345");
@@ -30,9 +31,9 @@ public class HibernateConfig {
     }
 
     @Bean
-    public LocalSessionFactoryBean sessionFactory(){
+    public LocalSessionFactoryBean sessionFactory(DataSource dataSource){
         LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
-        sessionFactory.setDataSource(dataSource());
+        sessionFactory.setDataSource(dataSource);
         sessionFactory.setHibernateProperties(hibernateProperties());
         sessionFactory.setPackagesToScan("ru.grandstep.logiweb.model");
         return sessionFactory;

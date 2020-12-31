@@ -16,13 +16,13 @@ public class WagonController {
 
     @GetMapping("/list")
     public ModelAndView listOfWagons(){
-        return new ModelAndView("wagon/list", "wagons", wagonService.getAll());
+        return new ModelAndView("admin/wagon/list", "wagons", wagonService.getAll());
     }
 
     @GetMapping({"/form", "form/{id}"})
     public ModelAndView editWagon(@PathVariable(required = false) Integer id){
         Wagon wagon = id == null ? new Wagon() : wagonService.getById(id);
-        return new ModelAndView("wagon/form", "wagon", wagon);
+        return new ModelAndView("admin/wagon/form", "wagon", wagon);
     }
 
     @PostMapping("/save")

@@ -16,13 +16,13 @@ public class DriverController {
 
     @GetMapping("/list")
     public ModelAndView listOfDrivers(){
-        return new ModelAndView("driver/list", "drivers", driverService.getAll());
+        return new ModelAndView("admin/driver/list", "drivers", driverService.getAll());
     }
 
     @GetMapping({"/form", "form/{id}"})
     public ModelAndView editDriver(@PathVariable(required = false) Integer id){
         Driver driver = id == null ? new Driver() : driverService.getById(id);
-        return new ModelAndView("driver/form", "driver", driver);
+        return new ModelAndView("admin/driver/form", "driver", driver);
     }
 
     @PostMapping("/save")

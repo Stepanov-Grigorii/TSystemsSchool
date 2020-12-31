@@ -17,6 +17,7 @@ public class Wagon {
     private String registryNumber;
     private Integer driverNumber; // размер смены водителей
     private Integer capacity;
+    private String brand;
     @Enumerated(EnumType.STRING)
     private Status status;
     @ManyToOne

@@ -22,8 +22,7 @@ public class WagonRepository {
     }
 
     public List<Wagon> getAll(){
-        List<Wagon> wagons = (List<Wagon>) entityManager.createQuery("SELECT w FROM Wagon w").getResultList();
-        return wagons;
+        return (List<Wagon>) entityManager.createQuery("SELECT w FROM Wagon w").getResultList();
     }
 
     @Transactional
