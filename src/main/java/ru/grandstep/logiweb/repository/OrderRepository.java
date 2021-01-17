@@ -1,13 +1,12 @@
 package ru.grandstep.logiweb.repository;
 
-import org.hibernate.Session;
-import org.hibernate.Transaction;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import ru.grandstep.logiweb.model.Order;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import java.util.List;
 
 @Repository
@@ -27,8 +26,20 @@ public class OrderRepository {
         return (List<Order>) entityManager.createQuery("SELECT o FROM Order o").getResultList();
     }
 
+    public Order getByWagon(String wagonRegNumber){
+        return (Order) entityManager.createQuery("SELECT o FROM Order o WHERE o.wagon.registryNumber =:wagonRegNumber")
+                                    .setParameter("wagonRegNumber", wagonRegNumber).getSingleResult();
+    }
+
     @Transactional
     public Order saveOrUpdate(Order order){
         return entityManager.merge(order);
+    }
+
+    @Transactional
+    public void delete(Integer id){
+        Query query = entityManager.createQuery("DELETE FROM Order o WHERE o.id = :id");
+        query.setParameter("id", id);
+        query.executeUpdate();
     }
 }

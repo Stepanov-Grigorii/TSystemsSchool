@@ -6,6 +6,7 @@ import ru.grandstep.logiweb.model.Cargo;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import java.util.List;
 
 @Repository
@@ -28,5 +29,12 @@ public class CargoRepository {
     @Transactional
     public Cargo saveOrUpdate(Cargo cargo){
         return entityManager.merge(cargo);
+    }
+
+    @Transactional
+    public void delete(Integer id){
+        Query query = entityManager.createQuery("DELETE FROM Cargo c WHERE c.id = :id");
+        query.setParameter("id", id);
+        query.executeUpdate();
     }
 }

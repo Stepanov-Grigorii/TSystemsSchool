@@ -30,4 +30,9 @@ public class WagonController {
         wagonService.saveOrUpdate(wagon);
         return new RedirectView("list");
     }
+
+    @DeleteMapping("{id}")
+    public void deleteDriver(@PathVariable Integer id){
+        wagonService.delete(id);
+    }
 }

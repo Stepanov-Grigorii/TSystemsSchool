@@ -30,4 +30,10 @@ public class DriverController {
         driverService.saveOrUpdate(driver);
         return new RedirectView("list");
     }
+
+    @GetMapping("/delete/{id}")
+    public RedirectView deleteDriver(@PathVariable Integer id){
+        driverService.delete(id);
+        return new RedirectView("../list");
+    }
 }

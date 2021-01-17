@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import ru.grandstep.logiweb.dto.OrderDTO;
 
 import javax.persistence.*;
 import java.util.List;
@@ -19,8 +20,10 @@ public class Order {
     private String number;
     @Enumerated(EnumType.STRING)
     private Status status;
-    @OneToMany(mappedBy = "order")
-    private List<Waypoint> waypointList;
+    @OneToOne
+    private Action actionDeparture;
+    @OneToOne
+    private Action actionDestination;
     @ManyToOne
     private Wagon wagon;
 

@@ -10,6 +10,18 @@
                         <c:url value="/drivers/list" var="driverslink"/>
                         <a class="nav-link active" aria-current="page" href="${driverslink}">Водители</a>
                     </li>
+                    <li class="nav-item">
+                        <c:url value="/wagons/list" var="wagonslink"/>
+                        <a class="nav-link active" aria-current="page" href="${wagonslink}">Фуры</a>
+                    </li>
+                    <li class="nav-item">
+                        <c:url value="/cargoes/list" var="cargoeslink"/>
+                        <a class="nav-link active" aria-current="page" href="${cargoeslink}">Грузы</a>
+                    </li>
+                    <li class="nav-item">
+                        <c:url value="/orders/list" var="orderslink"/>
+                        <a class="nav-link active" aria-current="page" href="${orderslink}">Заказы</a>
+                    </li>
                 </ul>
             </div>
         </div>

@@ -24,6 +24,12 @@ public class DriverService {
     }
 
     public Driver saveOrUpdate(Driver driver) {
+        if(driver.getId() != null){
+            Driver oldDriver = driverRepository.getById(driver.getId());
+            oldDriver.setName(driver.getName());
+            oldDriver.setSurname(driver.getSurname());
+            driver = oldDriver;
+        }
         return driverRepository.saveOrUpdate(driver);
     }
 

@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 @Entity
 @Data
@@ -18,4 +19,5 @@ public class Distance {
     @ManyToOne
     private City second;
     private BigDecimal distance;
+    private Integer hours;
 }

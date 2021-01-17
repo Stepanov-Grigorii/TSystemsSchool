@@ -21,6 +21,7 @@ public class Filler {
     private final OrderRepository orderRepository;
     private final CargoRepository cargoRepository;
     private final WaypointRepository waypointRepository;
+    private final ActionRepository actionRepository;
     @PostConstruct
     private void fill(){
         Faker faker = new Faker();
@@ -44,30 +45,67 @@ public class Filler {
         distance.setDistance(new BigDecimal("705.6"));
         distance.setFirst(cityRepository.getById(1));
         distance.setSecond(cityRepository.getById(2));
+        distance.setHours(8);
 
         distanceRepository.saveOrUpdate(distance);
-
-        Waypoint waypointS = new Waypoint();
-        Waypoint waypointM = new Waypoint();
-
-        waypointS.setType(Waypoint.Type.LOADING);
-        waypointM.setType(Waypoint.Type.UNLOADING);
-
-        List.of(waypointS, waypointM).forEach(waypointRepository::saveOrUpdate);
 
         Cargo cargo = new Cargo();
 
         cargo.setNumber("A1S2D3");
         cargo.setName("Flour");
+        cargo.setWeigh(BigDecimal.valueOf(3.5));
         cargo.setStatus(Cargo.Status.PREPARED);
 
-        cargoRepository.saveOrUpdate(cargo);
+        Cargo cargo1 = new Cargo();
+
+        cargo1.setNumber("A1S2D4");
+        cargo1.setName("Wood");
+        cargo1.setWeigh(BigDecimal.valueOf(2));
+        cargo1.setStatus(Cargo.Status.PREPARED);
+
+        List.of(cargo, cargo1).forEach(cargoRepository::saveOrUpdate);
+
+        Waypoint waypointS = new Waypoint();
+        Waypoint waypointM = new Waypoint();
+
+        waypointS.setName("Spb N1");
+        waypointM.setName("Msk N1");
+
+        waypointS.setAddress("Kad 117 km");
+        waypointM.setAddress("Kaluzhskoe highway 21 km");
+
+        waypointS.setCity(cityRepository.getById(1));
+        waypointM.setCity(cityRepository.getById(2));
+
+        List.of(waypointS, waypointM).forEach(waypointRepository::saveOrUpdate);
+
+        Action action1 = new Action();
+        Action action2 = new Action();
+        Action action3 = new Action();
+
+        action1.setType(Action.Type.LOADING);
+        action2.setType(Action.Type.UNLOADING);
+        action3.setType(Action.Type.LOADING);
+
+        cargo = cargoRepository.getById(1);
+        action1.setCargo(cargo);
+        action2.setCargo(cargo);
+
+        cargo = cargoRepository.getById(2);
+        action3.setCargo(cargo);
+
+        action1.setWaypoint(waypointRepository.getById(1));
+        action2.setWaypoint(waypointRepository.getById(2));
+        action3.setWaypoint(waypointRepository.getById(1));
+
+        List.of(action1, action2, action3).forEach(actionRepository::saveOrUpdate);
 
         Order order = new Order();
 
         order.setNumber("1A");
         order.setStatus(Order.Status.WAITING);
-        order.setWaypointList(List.of(waypointRepository.getById(1), waypointRepository.getById(2)));
+        order.setActionDeparture(actionRepository.getById(1));
+        order.setActionDestination(actionRepository.getById(2));
 
         orderRepository.saveOrUpdate(order);
 
@@ -90,26 +128,31 @@ public class Filler {
         volvo.setRegistryNumber("V0001OL");
         volvo.setDriverNumber(4);
         volvo.setBrand("Volvo");
+        volvo.setStatus(Wagon.Status.WORKED);
 
         mercedes.setCapacity(10);
         mercedes.setRegistryNumber("M0002ER");
         mercedes.setDriverNumber(4);
         mercedes.setBrand("Mercedes");
+        mercedes.setStatus(Wagon.Status.BROKEN);
 
         renault.setCapacity(5);
         renault.setRegistryNumber("R0003EN");
         renault.setDriverNumber(4);
         renault.setBrand("Renault");
+        renault.setStatus(Wagon.Status.WORKED);
 
         mack.setCapacity(5);
         mack.setRegistryNumber("S0004CA");
         mack.setDriverNumber(4);
         mack.setBrand("Mack");
+        mack.setStatus(Wagon.Status.WORKED);
 
         harleyDavidson.setCapacity(20);
         harleyDavidson.setRegistryNumber("H005AD");
         harleyDavidson.setDriverNumber(4);
         harleyDavidson.setBrand("Harley Davidson");
+        harleyDavidson.setStatus(Wagon.Status.WORKED);
 
         List.of(volvo, mercedes, renault, mack, harleyDavidson).forEach(wagonRepository::saveOrUpdate);
 
@@ -144,8 +187,10 @@ public class Filler {
             driverRepository.saveOrUpdate(driver);
         }
 
+        order = orderRepository.getById(1);
+        wagon = wagonRepository.getById(1);
+        order.setWagon(wagon);
 
-
-
+        orderRepository.saveOrUpdate(order);
     }
 }

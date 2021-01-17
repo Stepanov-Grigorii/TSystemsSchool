@@ -11,6 +11,7 @@ import javax.persistence.*;
 @Data
 @NoArgsConstructor
 public class Driver extends User{
+    public static final Integer MAX_HOURS = 176;
     private String name;
     private String surname;
     private String identityNumber;
