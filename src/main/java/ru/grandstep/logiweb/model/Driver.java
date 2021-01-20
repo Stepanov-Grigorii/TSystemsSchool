@@ -15,7 +15,7 @@ public class Driver extends User{
     private String name;
     private String surname;
     private String identityNumber;
-    private Integer hoursInCurrentMonth;
+    private Integer hoursInCurrentMonth = 0;
     @Enumerated(EnumType.STRING)  //записывать в бд имя самого enum
     private Status status;
     @ManyToOne

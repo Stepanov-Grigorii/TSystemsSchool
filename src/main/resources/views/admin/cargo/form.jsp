@@ -25,9 +25,9 @@
                     </c:if>
                 </legend>
                 <div class="mb-3">
-                    <form:label path="name" class="form-label">Название</form:label>
+                    <form:label path="name" class="form-label">Содержимое</form:label>
                     <form:input path="name" class="form-control" id="cargo-name" aria-describedby="nameHelp"/>
-                    <div id="nameHelp" class="form-text">Название груза не должно быть пустым.</div>
+                    <div id="nameHelp" class="form-text">Пункт "Содержимое" не должен быть пустым.</div>
                 </div>
                 <div class="mb-3">
                     <form:label path="number" class="form-label">Номер</form:label>
@@ -41,7 +41,7 @@
                 </div>
                 <div class="mb-3">
                     <form:label path="waypointDtoList" class="form-label">Пункт отправки:</form:label>
-                    <form:select path="waypointId" items="${cargoDTO.waypointDtoList}" itemLabel="name" itemValue="id" multiple="false"/>
+                    <form:select path="waypointId" items="${cargoDTO.waypointDtoList}" itemLabel="name" itemValue="id" multiple="false" class="form-select"/>
 
                 </div>
 

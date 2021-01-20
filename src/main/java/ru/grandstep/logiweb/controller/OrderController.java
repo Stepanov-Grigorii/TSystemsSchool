@@ -50,7 +50,7 @@ public class OrderController {
         Order order = orderMapper.getOrder(orderDTO,
                                            wagonService.getById(orderDTO.getWagonId()),
                                            actionDeparture);
-        orderService.saveOrUpdate(order, actionDestination);
+        orderService.saveOrUpdate(order, actionDestination);//wagonId
 
         return new RedirectView("list");
     }

@@ -10,6 +10,10 @@
 <body>
 <jsp:include page="../common/header.jsp"/>
 <div class="container">
+    <c:url value="/wagons/form" var="newWagon"/>
+    <div class="d-grid gap-2">
+        <a href="${newWagon}" class="btn btn-success" role="button">Новая фура</a>
+    </div>
 <table class="table table-light table-hover">
     <thead>
         <tr>
@@ -18,6 +22,8 @@
             <th scope="col">Регистрационный номер</th>
             <th scope="col">Вместимость (тонны)</th>
             <th scope="col">Размер смены водителей</th>
+            <th scope="col">Состояние</th>
+            <th scope="col">Город</th>
         </tr>
     </thead>
     <tbody>
@@ -28,6 +34,8 @@
                 <td>${wagon.registryNumber}</td>
                 <td>${wagon.capacity}</td>
                 <td>${wagon.driverNumber}</td>
+                <td>${wagon.status}</td>
+                <td>${wagon.city}</td>
             </tr>
         </c:forEach>
     </tbody>

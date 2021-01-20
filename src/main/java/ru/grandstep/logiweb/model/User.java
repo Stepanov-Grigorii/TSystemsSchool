@@ -5,16 +5,13 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
+import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 
-@MappedSuperclass
 @Data
 @NoArgsConstructor
+@MappedSuperclass
 public abstract class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id

@@ -29,18 +29,18 @@
                     <div id="nameHelp" class="form-text">Номер заказа....</div>
                 </div>
                 <div class="mb-3">
-                    <form:label path="cargoDtoList" class="form-label">Груз:</form:label>
-                    <form:select path="cargoId" items="${orderDTO.cargoDtoList}" itemLabel="name" itemValue="id" multiple="false"/>
+                    <form:label path="cargoId" class="form-label">Груз:</form:label>
+                    <form:select path="cargoId" items="${orderDTO.cargoDtoList}" itemLabel="name" itemValue="id" multiple="false" class="form-select"/>
 
                 </div>
                 <div class="mb-3">
-                    <form:label path="wagonDtoList" class="form-label">Регистрационный номер фуры:</form:label>
-                    <form:select path="wagonId" items="${orderDTO.wagonDtoList}" itemLabel="registryNumber" itemValue="id" multiple="false"/>
+                    <form:label path="wagonId" class="form-label">Регистрационный номер фуры:</form:label>
+                    <form:select path="wagonId" items="${orderDTO.wagonDtoList}" itemLabel="registryNumber" itemValue="id" multiple="false" class="form-select"/>
 
                 </div>
                 <div class="mb-3">
-                    <form:label path="waypointDtoList" class="form-label">Пункт назначения:</form:label>
-                    <form:select path="waypointId" items="${orderDTO.waypointDtoList}" itemLabel="name" itemValue="id" multiple="false"/>
+                    <form:label path="waypointId" class="form-label">Пункт назначения:</form:label>
+                    <form:select path="waypointId" items="${orderDTO.waypointDtoList}" itemLabel="name" itemValue="id" multiple="false" class="form-select"/>
 
                 </div>
 

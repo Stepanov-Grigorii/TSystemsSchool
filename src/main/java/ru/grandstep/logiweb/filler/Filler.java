@@ -2,6 +2,7 @@ package ru.grandstep.logiweb.filler;
 
 import com.github.javafaker.Faker;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import ru.grandstep.logiweb.model.*;
 import ru.grandstep.logiweb.repository.*;
@@ -22,6 +23,8 @@ public class Filler {
     private final CargoRepository cargoRepository;
     private final WaypointRepository waypointRepository;
     private final ActionRepository actionRepository;
+    private final PasswordEncoder passwordEncoder;
+
     @PostConstruct
     private void fill(){
         Faker faker = new Faker();
@@ -111,10 +114,13 @@ public class Filler {
 
         for(int i = 0; i < 20; i++){
             Driver driver = new Driver();
+            driver.setPassword(passwordEncoder.encode("qwerty"));
+            driver.setLogin("driver" + (i + 1));
             driver.setName(DriverNames.getFirstName());
             driver.setSurname(DriverNames.getLastName());
             driver.setIdentityNumber(DriverID.getUserId(driver.getName(), driver.getSurname(), driverRepository.getIdentityNumbers()));
             driver.setEmail(faker.internet().emailAddress());
+            driver.setStatus(Driver.Status.REST);
             driverRepository.saveOrUpdate(driver);
         }
 
@@ -129,30 +135,35 @@ public class Filler {
         volvo.setDriverNumber(4);
         volvo.setBrand("Volvo");
         volvo.setStatus(Wagon.Status.WORKED);
+        volvo.setCurrentCity(cityRepository.getById(1));
 
         mercedes.setCapacity(10);
         mercedes.setRegistryNumber("M0002ER");
         mercedes.setDriverNumber(4);
         mercedes.setBrand("Mercedes");
         mercedes.setStatus(Wagon.Status.BROKEN);
+        mercedes.setCurrentCity(cityRepository.getById(2));
 
         renault.setCapacity(5);
         renault.setRegistryNumber("R0003EN");
         renault.setDriverNumber(4);
         renault.setBrand("Renault");
         renault.setStatus(Wagon.Status.WORKED);
+        renault.setCurrentCity(cityRepository.getById(1));
 
         mack.setCapacity(5);
-        mack.setRegistryNumber("S0004CA");
+        mack.setRegistryNumber("M0004CK");
         mack.setDriverNumber(4);
         mack.setBrand("Mack");
         mack.setStatus(Wagon.Status.WORKED);
+        mack.setCurrentCity(cityRepository.getById(1));
 
         harleyDavidson.setCapacity(20);
-        harleyDavidson.setRegistryNumber("H005AD");
+        harleyDavidson.setRegistryNumber("H0005AD");
         harleyDavidson.setDriverNumber(4);
         harleyDavidson.setBrand("Harley Davidson");
         harleyDavidson.setStatus(Wagon.Status.WORKED);
+        harleyDavidson.setCurrentCity(cityRepository.getById(2));
 
         List.of(volvo, mercedes, renault, mack, harleyDavidson).forEach(wagonRepository::saveOrUpdate);
 

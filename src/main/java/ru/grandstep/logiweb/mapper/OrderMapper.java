@@ -28,8 +28,25 @@ public class OrderMapper {
 
         order.setNumber(dto.getNumber());
         order.setWagon(wagon);
-        order.setStatus(Order.Status.WAITING);
+        order.setStatus(Order.Status.WAITING);//!!!
         order.setActionDeparture(action);
+
+        return order;
+    }
+
+    public Order getOrder2(ShowOrderFormDTO dto){
+        Order order = new Order();
+        Wagon wagon = new Wagon();
+        Action action = new Action();
+        Waypoint waypoint = new Waypoint();
+
+        waypoint.setId(dto.getWaypointId());
+        wagon.setId(dto.getWagonId());
+        action.setWaypoint(waypoint);
+
+        order.setNumber(dto.getNumber());
+        order.setActionDeparture(action);
+        order.setWagon(wagon);
 
         return order;
     }
@@ -39,6 +56,15 @@ public class OrderMapper {
         ShowOrderFormDTO dto = new ShowOrderFormDTO();
         dto.setId(id);
         dto.setNumber(order.getNumber());
+        if(order.getActionDeparture() != null && order.getActionDeparture().getCargo() != null){
+            dto.setCargoId(order.getActionDeparture().getCargo().getId());
+        }
+        if(order.getActionDestination() != null && order.getActionDestination().getWaypoint() != null){
+            dto.setWaypointId(order.getActionDestination().getWaypoint().getId());
+        }
+        if(order.getWagon() != null){
+            dto.setWagonId(order.getWagon().getId());
+        }
         dto.setCargoDtoList(cargos.stream()
                 .map(cargo -> new ShowOrderFormDTO.CargoDTO(cargo.getId(), cargo.getName()))
                 .collect(Collectors.toList()));

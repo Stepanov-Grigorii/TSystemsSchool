@@ -11,6 +11,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class WagonService {
     private final WagonRepository wagonRepository;
+    private final CityService cityService;
 
     public Wagon getById(Integer id){
         if(id == null || id <= 0){
@@ -24,6 +25,9 @@ public class WagonService {
     }
 
     public Wagon saveOrUpdate(Wagon wagon){
+        if(wagon.getCurrentCity().getName() == null){
+            wagon.setCurrentCity(cityService.getById(wagon.getCurrentCity().getId()));
+        }
         return wagonRepository.saveOrUpdate(wagon);
     }
 
