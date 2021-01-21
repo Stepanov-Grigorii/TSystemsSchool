@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <html>
@@ -14,7 +14,7 @@
 <div class="container">
     <div class="row mt-3">
         <div class="col">
-            <c:url value="/wagons/save" var="savelink"/>
+            <c:url value="/admin/wagons/save" var="savelink"/>
             <form:form method="post" action="${savelink}" autocomplete="false" modelAttribute="wagonDTO">
                 <legend>
                     <c:if test="${wagonDTO.id eq null}">
@@ -46,10 +46,7 @@
                 </div>
                 <div class="mb-3">
                     <form:label path="status" class="form-label">Статус:</form:label>
-                    <form:select path="status"  class="form-control" id="wagon-status" aria-describedby="nameHelp">
-                        <option selected>${Wagon.Status.WORKED}</option>
-                        <option value="1">${Wagon.Status.BROKEN}</option>
-                    </form:select>
+                    <form:select path="status" items="${wagonDTO.statusNames}" multiple="false" class="form-select"/>
                     <div id="nameHelp" class="form-text">Выберете статус.</div>
                 </div>
 

@@ -13,8 +13,8 @@
 <div class="container">
     <div class="row">
         <c:forEach var="driver" items="${drivers}">
-            <c:url value="/drivers/form/${driver.id}" var="editDriver"/>
-            <c:url value="/drivers/delete/${driver.id}" var="deleteDriver"/>
+            <c:url value="/admin/drivers/form/${driver.id}" var="editDriver"/>
+            <c:url value="/admin/drivers/delete/${driver.id}" var="deleteDriver"/>
             <div class="col-2 mt-5">
                 <div class="card">
                     <div class="card-body">
@@ -27,7 +27,7 @@
             </div>
         </c:forEach>
         <div class="col-2 mt-5">
-            <c:url value="/drivers/form" var="newDriver"/>
+            <c:url value="/admin/drivers/form" var="newDriver"/>
             <a href="${newDriver}">
             <span style="font-size: 7rem">
                 <i class="fas fa-plus-circle text-success"></i>

@@ -45,8 +45,10 @@ public class CargoMapper {
         return dto;
     }
 
-    public Action getAction(Waypoint waypoint){
+    public Action getAction(ShowCargoFormDTO dto){
         Action action = new Action();
+        Waypoint waypoint = new Waypoint();
+        waypoint.setId(dto.getWaypointId());
         action.setWaypoint(waypoint);
         return action;
     }

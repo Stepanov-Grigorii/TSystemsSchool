@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 @Component
 public class WagonMapper {
 
-    public WagonDTO getWagonDTO(Wagon wagon){
+    public WagonDTO getWagonDTO(Wagon wagon) {
         WagonDTO dto = new WagonDTO();
 
         dto.setRegistryNumber(wagon.getRegistryNumber());
@@ -25,29 +25,30 @@ public class WagonMapper {
         return dto;
     }
 
-    public Wagon getWagon(ShowWagonFormDTO dto){
+    public Wagon getWagon(ShowWagonFormDTO dto) {
         Wagon wagon = new Wagon();
         City city = new City();
 
         wagon.setBrand(dto.getBrand());
         wagon.setCapacity(dto.getCapacity());
         wagon.setRegistryNumber(dto.getRegistryNumber());
-        wagon.setStatus(dto.getStatus());
+        wagon.setStatus(Wagon.Status.getStatusByName(dto.getStatus()));
         city.setId(dto.getCityId());
         wagon.setCurrentCity(city);
 
         return wagon;
     }
 
-    public ShowWagonFormDTO getShowWagonFormDTO(Integer id, Wagon wagon, List<City> cityList){
+    public ShowWagonFormDTO getShowWagonFormDTO(Integer id, Wagon wagon, List<City> cityList) {
         ShowWagonFormDTO dto = new ShowWagonFormDTO();
 
         dto.setId(id);
         dto.setDriverNumber(wagon.getDriverNumber());
         dto.setCapacity(wagon.getCapacity());
         dto.setBrand(wagon.getBrand());
-        dto.setStatus(wagon.getStatus());
-
+        if (wagon.getStatus() != null) {
+            dto.setStatus(wagon.getStatus().getName());
+        }
         dto.setCityDtoList(cityList.stream()
                 .map(city -> new ShowWagonFormDTO.CityDTO(city.getId(), city.getName()))
                 .collect(Collectors.toList()));

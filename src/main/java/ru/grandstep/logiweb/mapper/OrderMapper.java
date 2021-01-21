@@ -23,30 +23,34 @@ public class OrderMapper {
         return dto;
     }
 
-    public Order getOrder(ShowOrderFormDTO dto, Wagon wagon, Action action){
-        Order order = new Order();
+//    public Order getOrder(ShowOrderFormDTO dto, Wagon wagon, Action action){
+//        Order order = new Order();
+//
+//        order.setNumber(dto.getNumber());
+//        order.setWagon(wagon);
+//        order.setStatus(Order.Status.WAITING);//!!!
+//        order.setActionDeparture(action);
+//
+//        return order;
+//    }
 
-        order.setNumber(dto.getNumber());
-        order.setWagon(wagon);
-        order.setStatus(Order.Status.WAITING);//!!!
-        order.setActionDeparture(action);
-
-        return order;
-    }
-
-    public Order getOrder2(ShowOrderFormDTO dto){
+    public Order getOrder(ShowOrderFormDTO dto){
         Order order = new Order();
         Wagon wagon = new Wagon();
-        Action action = new Action();
+        Action actionDeparture = new Action();
+        Action actionDestination = new Action();
         Waypoint waypoint = new Waypoint();
 
-        waypoint.setId(dto.getWaypointId());
         wagon.setId(dto.getWagonId());
-        action.setWaypoint(waypoint);
+        actionDeparture.setId(dto.getCargoId());
+        waypoint.setId(dto.getWaypointId());
+        actionDestination.setWaypoint(waypoint);
 
         order.setNumber(dto.getNumber());
-        order.setActionDeparture(action);
+        order.setActionDeparture(actionDeparture);
+        order.setActionDestination(actionDestination);
         order.setWagon(wagon);
+        order.setStatus(Order.Status.WAITING);
 
         return order;
     }

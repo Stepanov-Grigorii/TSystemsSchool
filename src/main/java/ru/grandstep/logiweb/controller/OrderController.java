@@ -8,22 +8,22 @@ import org.springframework.web.servlet.view.RedirectView;
 import ru.grandstep.logiweb.dto.OrderDTO;
 import ru.grandstep.logiweb.dto.ShowOrderFormDTO;
 import ru.grandstep.logiweb.mapper.OrderMapper;
-import ru.grandstep.logiweb.model.Action;
 import ru.grandstep.logiweb.model.Order;
-import ru.grandstep.logiweb.model.Wagon;
-import ru.grandstep.logiweb.service.*;
+import ru.grandstep.logiweb.service.CargoService;
+import ru.grandstep.logiweb.service.OrderService;
+import ru.grandstep.logiweb.service.WagonService;
+import ru.grandstep.logiweb.service.WaypointService;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Controller
-@RequestMapping("orders")
+@RequestMapping("admin/orders")
 @RequiredArgsConstructor
 public class OrderController {
     private final OrderService orderService;
     private final OrderMapper orderMapper;
     private final WagonService wagonService;
-    private final ActionService actionService;
     private final WaypointService waypointService;
     private final CargoService cargoService;
 
@@ -45,12 +45,10 @@ public class OrderController {
 
     @PostMapping("/save")
     public RedirectView saveOrder(@ModelAttribute ShowOrderFormDTO orderDTO) {
-        Action actionDeparture = actionService.getByCargoId(orderDTO.getCargoId());
-        Action actionDestination = orderMapper.getAction(waypointService.getById(orderDTO.getWaypointId()));
-        Order order = orderMapper.getOrder(orderDTO,
-                                           wagonService.getById(orderDTO.getWagonId()),
-                                           actionDeparture);
-        orderService.saveOrUpdate(order, actionDestination);//wagonId
+
+        Order order = orderMapper.getOrder(orderDTO);
+
+        orderService.save(order);
 
         return new RedirectView("list");
     }

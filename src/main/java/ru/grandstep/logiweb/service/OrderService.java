@@ -13,7 +13,9 @@ import java.util.List;
 @RequiredArgsConstructor
 public class OrderService {
     private final OrderRepository orderRepository;
-    private final ActionRepository actionRepository;
+    private final ActionService actionService;
+    private final WagonService wagonService;
+    private final WaypointService waypointService;
 
     public Order getById(Integer id){
         if(id == null || id <= 0){
@@ -26,11 +28,27 @@ public class OrderService {
         return orderRepository.getAll();
     }
 
-    public Order saveOrUpdate(Order order, Action action){
+//    public Order saveOrUpdate(Order order, Action action){
+//        action.setCargo(order.getActionDeparture().getCargo());
+//        action.setType(Action.Type.UNLOADING);
+//        Action savedAction = actionRepository.saveOrUpdate(action);
+//        order.setActionDestination(savedAction);
+//        return orderRepository.saveOrUpdate(order);
+//    }
+
+    public Order save(Order order){
+
+        order.setActionDeparture(actionService.getByCargoId(order.getActionDeparture().getId()));
+        order.setWagon(wagonService.getById(order.getWagon().getId()));
+
+        Action action = order.getActionDestination();
+        action.setWaypoint(waypointService.getById(action.getWaypoint().getId()));
         action.setCargo(order.getActionDeparture().getCargo());
         action.setType(Action.Type.UNLOADING);
-        Action savedAction = actionRepository.saveOrUpdate(action);
+        Action savedAction = actionService.saveOrUpdate(action);
+
         order.setActionDestination(savedAction);
+
         return orderRepository.saveOrUpdate(order);
     }
 

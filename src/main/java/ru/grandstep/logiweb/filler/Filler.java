@@ -24,10 +24,17 @@ public class Filler {
     private final WaypointRepository waypointRepository;
     private final ActionRepository actionRepository;
     private final PasswordEncoder passwordEncoder;
+    private final AdminRepository adminRepository;
 
     @PostConstruct
     private void fill(){
         Faker faker = new Faker();
+
+        Admin admin = new Admin();
+
+        admin.setLogin("admin");
+        admin.setPassword(passwordEncoder.encode("admin"));
+        adminRepository.saveOrUpdate(admin);
 
         City cityS = new City();
         City cityM = new City();

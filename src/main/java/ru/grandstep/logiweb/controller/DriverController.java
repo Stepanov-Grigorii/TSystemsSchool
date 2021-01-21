@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Controller
-@RequestMapping("drivers")
+@RequestMapping("admin/drivers")
 @RequiredArgsConstructor
 public class DriverController {
     private final DriverService driverService;

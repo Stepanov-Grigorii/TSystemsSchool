@@ -13,7 +13,7 @@
 <div class="container">
     <div class="row mt-3">
         <div class="col">
-            <c:url value="/drivers/save" var="savelink"/>
+            <c:url value="/admin/drivers/save" var="savelink"/>
             <form:form method="post" action="${savelink}" autocomplete="false" modelAttribute="driver">
                 <legend>
                     <c:if test="${driver.id eq null}">

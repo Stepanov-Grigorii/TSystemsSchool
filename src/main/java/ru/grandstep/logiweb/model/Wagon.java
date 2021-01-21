@@ -25,10 +25,17 @@ public class Wagon {
 
     @AllArgsConstructor
     @Getter
-    public enum Status{
+    public enum Status {
         WORKED("Исправен"),
         BROKEN("Сломан");
         private final String name;
 
+        public static Status getStatusByName(String name) {
+            return switch (name) {
+                case "Исправен" -> WORKED;
+                case "Сломан" -> BROKEN;
+                default -> throw new IllegalStateException("Unexpected value: " + name);
+            };
+        }
     }
 }

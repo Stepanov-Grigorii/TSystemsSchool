@@ -16,7 +16,7 @@ public class ShowWagonFormDTO {
     private Integer driverNumber;
     private Integer capacity;
     private String brand;
-    private Wagon.Status status;
+    private String status;
     private List<String> statusNames;
     private Integer cityId;
     private List<CityDTO> cityDtoList;
@@ -29,7 +29,6 @@ public class ShowWagonFormDTO {
     @Data
     @AllArgsConstructor
     public static class CityDTO{
-
         Integer id;
         String name;
     }

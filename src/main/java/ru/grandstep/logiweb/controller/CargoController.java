@@ -14,7 +14,7 @@ import ru.grandstep.logiweb.service.CargoService;
 import ru.grandstep.logiweb.service.WaypointService;
 
 @Controller
-@RequestMapping("cargoes")
+@RequestMapping("admin/cargoes")
 @RequiredArgsConstructor
 public class CargoController {
     private final CargoService cargoService;
@@ -35,8 +35,7 @@ public class CargoController {
 
     @PostMapping("/save")
     public RedirectView saveCargo(@ModelAttribute ShowCargoFormDTO dto){
-        Action action = cargoMapper.getAction(waypointService.getById(dto.getWaypointId()));
-        cargoService.saveOrUpdate(cargoMapper.getCargo(dto), action);
+        cargoService.saveOrUpdate(cargoMapper.getCargo(dto), cargoMapper.getAction(dto));
         return new RedirectView("list");
     }
 

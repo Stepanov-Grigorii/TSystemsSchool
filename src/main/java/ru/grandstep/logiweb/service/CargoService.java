@@ -17,7 +17,7 @@ import java.util.List;
 public class CargoService {
     private final CargoRepository cargoRepository;
     private final ActionRepository actionRepository;
-    private final WaypointRepository waypointRepository;
+    private final WaypointService waypointService;
 
     public Cargo getById(Integer id){
         if(id == null || id <= 0){
@@ -32,6 +32,7 @@ public class CargoService {
 
     public Cargo saveOrUpdate(Cargo cargo, Action action){
         Cargo savedCargo = cargoRepository.saveOrUpdate(cargo);
+        action.setWaypoint(waypointService.getById(action.getWaypoint().getId()));
         action.setCargo(savedCargo);
         action.setType(Action.Type.LOADING);
         actionRepository.saveOrUpdate(action);

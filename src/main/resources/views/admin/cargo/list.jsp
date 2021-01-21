@@ -12,7 +12,7 @@
 <div class="container">
     <div class="row">
         <c:forEach var="cargo" items="${cargoes}">
-            <c:url value="/cargoes/form/${cargo.id}" var="editCargo"/>
+            <c:url value="/admin/cargoes/form/${cargo.id}" var="editCargo"/>
             <div class="col-2 mt-5">
                 <div class="card">
                     <div class="card-body">
@@ -26,7 +26,7 @@
             </div>
         </c:forEach>
         <div class="col-2 mt-5">
-            <c:url value="/cargoes/form" var="newCargo"/>
+            <c:url value="/admin/cargoes/form" var="newCargo"/>
             <a href="${newCargo}">
             <span style="font-size: 7rem">
                 <i class="fas fa-plus-circle text-success"></i>

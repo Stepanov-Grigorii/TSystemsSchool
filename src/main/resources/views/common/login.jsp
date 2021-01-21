@@ -19,6 +19,9 @@
                 Пароль:
                 <input name="password" type="password">
             </p>
+            <c:if test="${param.error ne null}">
+                test
+            </c:if>
             <button>Войти</button>
         </form>
     </div>

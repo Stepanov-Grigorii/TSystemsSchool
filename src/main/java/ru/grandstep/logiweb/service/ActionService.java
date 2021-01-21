@@ -10,7 +10,14 @@ import ru.grandstep.logiweb.repository.ActionRepository;
 public class ActionService {
     private final ActionRepository actionRepository;
 
+    public Action getById(Integer id){
+        return actionRepository.getById(id);
+    }
     public Action getByCargoId(Integer id){
         return actionRepository.getByCargoId(id);
+    }
+
+    public Action saveOrUpdate(Action action){
+        return actionRepository.saveOrUpdate(action);
     }
 }

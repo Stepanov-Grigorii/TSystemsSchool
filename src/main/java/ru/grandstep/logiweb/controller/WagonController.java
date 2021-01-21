@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Controller
-@RequestMapping("wagons")
+@RequestMapping("admin/wagons")
 @RequiredArgsConstructor
 public class WagonController {
     private final WagonService wagonService;

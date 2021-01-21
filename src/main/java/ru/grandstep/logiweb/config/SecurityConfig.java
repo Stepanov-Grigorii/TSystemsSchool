@@ -7,6 +7,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import ru.grandstep.logiweb.model.User;
 
 @Configuration
 @EnableWebSecurity
@@ -16,6 +17,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable();
         http.authorizeRequests()
                 .antMatchers("/login*").permitAll()
+                .antMatchers("/admin/**").hasAuthority(User.Role.ADMIN.toString())
+                .antMatchers("/driver/**").hasAuthority(User.Role.DRIVER.toString())
                 .anyRequest().authenticated();
         http.formLogin()
                 .loginPage("/login")

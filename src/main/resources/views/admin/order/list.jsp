@@ -10,7 +10,7 @@
 <body>
 <jsp:include page="../common/header.jsp"/>
 <div class="container">
-    <c:url value="/orders/form" var="newOrder"/>
+    <c:url value="/admin/orders/form" var="newOrder"/>
     <div class="d-grid gap-2">
         <a href="${newOrder}" class="btn btn-success" role="button">Добавить заказ</a>
     </div>
