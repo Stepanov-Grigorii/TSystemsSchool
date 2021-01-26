@@ -7,6 +7,16 @@
           integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
     <script src="https://kit.fontawesome.com/86bfa24c64.js" crossorigin="anonymous"></script>
     <title>Список водителей</title>
+    <style>
+        .icon-button{
+            background: none;
+            padding: 0;
+            border: none;
+        }
+        .little-form{
+            display: inline;
+        }
+    </style>
 </head>
 <body>
 <jsp:include page="../common/header.jsp"/>
@@ -21,7 +31,9 @@
                         <h5 class="card-title">${driver.name} ${driver.surname}</h5>
                         <p class="card-text">Идентификационный номер: ${driver.identityNumber}</p>
                         <a href="${editDriver}"><i class="fas fa-user-edit"></i></a>
-                        <a href="${deleteDriver}"><i class="fas fa-trash-alt"></i></a>
+                        <form method="post" class="little-form" action="${deleteDriver}">
+                            <button class="icon-button"><i class="fas fa-trash-alt text-primary"></i></button>
+                        </form>
                     </div>
                 </div>
             </div>

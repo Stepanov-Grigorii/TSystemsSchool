@@ -3,6 +3,7 @@ package ru.grandstep.logiweb.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.grandstep.logiweb.dto.CargoDTO;
+import ru.grandstep.logiweb.exception.WrongIdException;
 import ru.grandstep.logiweb.mapper.CargoMapper;
 import ru.grandstep.logiweb.model.Action;
 import ru.grandstep.logiweb.model.Cargo;
@@ -21,7 +22,7 @@ public class CargoService {
 
     public Cargo getById(Integer id){
         if(id == null || id <= 0){
-            throw new RuntimeException("Wrong id");
+            throw new WrongIdException();
         }
         return cargoRepository.getById(id);
     }
@@ -39,9 +40,13 @@ public class CargoService {
         return savedCargo;
     }
 
+    public Cargo update(Cargo cargo){
+        return cargoRepository.saveOrUpdate(cargo);
+    }
+
     public void delete(Integer id) {
         if (id == null || id <= 1) {
-            throw new RuntimeException("Wrong id");
+            throw new WrongIdException();
         }
         cargoRepository.delete(id);
     }

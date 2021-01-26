@@ -13,6 +13,9 @@ import ru.grandstep.logiweb.model.Cargo;
 import ru.grandstep.logiweb.service.CargoService;
 import ru.grandstep.logiweb.service.WaypointService;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Controller
 @RequestMapping("admin/cargoes")
 @RequiredArgsConstructor
@@ -23,7 +26,8 @@ public class CargoController {
 
     @GetMapping("/list")
     public ModelAndView listOfCargoes(){
-        return new ModelAndView("admin/cargo/list", "cargoes", cargoService.getAll());
+        List<CargoDTO> cargoDTOList = cargoService.getAll().stream().map(cargoMapper::getCargoDTO).collect(Collectors.toList());
+        return new ModelAndView("admin/cargo/list", "cargoes", cargoDTOList);
     }
 
     @GetMapping({"/form", "form/{id}"})

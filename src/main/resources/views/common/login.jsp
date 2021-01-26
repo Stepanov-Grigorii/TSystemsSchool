@@ -7,23 +7,33 @@
     <script src="https://kit.fontawesome.com/86bfa24c64.js" crossorigin="anonymous"></script>
     <title>Аутентификация</title>
 </head>
-<body>
+<body class="text-center">
 <div class="container">
     <div class="row">
-        <form method="post" action="login">
-            <p>
-                Логин:
-                <input name="username">
-            </p>
-            <p>
-                Пароль:
-                <input name="password" type="password">
-            </p>
-            <c:if test="${param.error ne null}">
-                test
-            </c:if>
-            <button>Войти</button>
-        </form>
+        <div class="col-sm-4 col-sm-offset-4">
+        <div class="position-absolute top-50 start-50 translate-middle">
+            <form method="post" action="login">
+                <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
+                <p>
+                    <label for="inputLogin" class="visually-hidden">Логин</label>
+                    <input name="username" id="inputLogin" class="form-control" placeholder="Логин" required="" autofocus="">
+<%--                    Логин:--%>
+<%--                    <input name="username">--%>
+                </p>
+                <p>
+                    <label for="inputPassword" class="visually-hidden">Password</label>
+                    <input name="password" type="password" id="inputPassword" class="form-control" placeholder="Password" required="">
+<%--                    Пароль:--%>
+<%--                    <input name="password" type="password">--%>
+                </p>
+                <c:if test="${param.error ne null}">
+                    test
+                </c:if>
+                <button class="w-50 btn btn-lg btn-primary" type="submit">Войти</button>
+                <%--            <button>Войти</button>--%>
+            </form>
+        </div>
+    </div>
     </div>
 </div>
 

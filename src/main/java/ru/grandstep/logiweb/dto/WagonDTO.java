@@ -2,6 +2,8 @@ package ru.grandstep.logiweb.dto;
 
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 public class WagonDTO {
     private Integer id;
@@ -11,4 +13,6 @@ public class WagonDTO {
     private String brand;
     private String status;
     private String city;
+    private String order;
+    private List<String> drivers;
 }

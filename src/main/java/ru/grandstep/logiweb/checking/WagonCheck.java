@@ -15,9 +15,9 @@ public class WagonCheck {
         if(wagon.getStatus() == Wagon.Status.BROKEN){
             return false;
         }
-        if(orderRepository.getByWagon(wagon.getRegistryNumber()) != null){
-            return false;
-        }
-        return wagon.getCapacity().doubleValue() >= cargo.getWeigh().doubleValue();
+//        if(orderRepository.getByWagon(wagon.getRegistryNumber()) != null){
+//            return false;
+//        }
+        return wagon.getCapacity().doubleValue() >= cargo.getWeight().doubleValue();
     }
 }

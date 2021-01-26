@@ -19,6 +19,7 @@
         <tr>
             <th scope="col">#</th>
             <th scope="col">Номер</th>
+            <th scope="col">Груз</th>
             <th scope="col">Фура</th>
             <th scope="col">Статус</th>
             <th scope="col">Пункт отправки</th>
@@ -30,6 +31,7 @@
             <tr>
                 <th scope="row">${status.count}</th>
                 <td>${order.getNumber()}</td>
+                <td>${order.getCargo()}</td>
                 <td>${order.getWagonRegistryNumber()}</td>
                 <td>${order.getStatus()}</td>
                 <td>${order.getDeparture()}</td>

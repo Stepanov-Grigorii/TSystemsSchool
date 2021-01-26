@@ -14,30 +14,40 @@ public class OrderRepository {
     @PersistenceContext
     private EntityManager entityManager;
 
-    public Order getById(Integer id){
+    public Order getById(Integer id) {
         Order order = entityManager.find(Order.class, id);
-        if(order == null){
+        if (order == null) {
             throw new RuntimeException("order with id" + id + " not found");
         }
         return order;
     }
 
-    public List<Order> getAll(){
+    public List<Order> getAll() {
         return (List<Order>) entityManager.createQuery("SELECT o FROM Order o").getResultList();
     }
 
-    public Order getByWagon(String wagonRegNumber){
+    public Order getByWagon(String wagonRegNumber) {
         return (Order) entityManager.createQuery("SELECT o FROM Order o WHERE o.wagon.registryNumber =:wagonRegNumber")
-                                    .setParameter("wagonRegNumber", wagonRegNumber).getSingleResult();
+                .setParameter("wagonRegNumber", wagonRegNumber).getSingleResult();
+    }
+
+    public List<Order> getByDriverId(Integer driverId) {
+        return (List<Order>) entityManager.createQuery("SELECT o FROM Order o, Driver d WHERE o.wagon.id = d.wagon.id AND d.id = :driverId")
+                .setParameter("driverId", driverId).getResultList();
+    }
+
+    public Order getByNumber(String number) {
+        return (Order) entityManager.createQuery("SELECT o FROM Order o WHERE o.number = :number")
+                .setParameter("number", number).getSingleResult();
     }
 
     @Transactional
-    public Order saveOrUpdate(Order order){
+    public Order saveOrUpdate(Order order) {
         return entityManager.merge(order);
     }
 
     @Transactional
-    public void delete(Integer id){
+    public void delete(Integer id) {
         Query query = entityManager.createQuery("DELETE FROM Order o WHERE o.id = :id");
         query.setParameter("id", id);
         query.executeUpdate();

@@ -18,9 +18,9 @@ public abstract class User {
     private Integer id;
     @NotBlank(message = "field login can't be blank")
     private String login;
-    @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{8,}$", message = "Неккоректный пароль")
+    @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{8,}$", message = "Некорректный пароль")
     private String password;
-    @Pattern(regexp = "^(.+)@(.+)$", message = "Неккоректный email")
+    @Pattern(regexp = "^(.+)@(.+)$", message = "Некорректный email")
     private String email;
 
     @AllArgsConstructor

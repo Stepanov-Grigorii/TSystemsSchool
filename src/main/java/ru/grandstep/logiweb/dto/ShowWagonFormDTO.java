@@ -20,6 +20,8 @@ public class ShowWagonFormDTO {
     private List<String> statusNames;
     private Integer cityId;
     private List<CityDTO> cityDtoList;
+    private List<Integer> driverIds;
+    private List<DriverDto> driverDtoList;
 
     public ShowWagonFormDTO() {
         this.statusNames = Arrays.stream(Wagon.Status.values())
@@ -31,5 +33,12 @@ public class ShowWagonFormDTO {
     public static class CityDTO{
         Integer id;
         String name;
+    }
+
+    @Data
+    @AllArgsConstructor
+    public static class DriverDto{
+        Integer id;
+        String identityNumber;
     }
 }

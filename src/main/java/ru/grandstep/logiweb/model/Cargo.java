@@ -17,7 +17,7 @@ public class Cargo {
     private Integer id;
     private String number;
     private String name;
-    private BigDecimal weigh;
+    private BigDecimal weight;
     @Enumerated(EnumType.STRING)
     private Status status;
 

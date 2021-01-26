@@ -38,9 +38,11 @@ public class Filler {
 
         City cityS = new City();
         City cityM = new City();
+        City cityNV = new City();
 
         cityS.setName("Saint-Petersburg");
         cityM.setName("Moscow");
+        cityNV.setName("Nizhny Novgorod");
 
         cityS.setLatitude(59.57);
         cityS.setLongitude(30.19);
@@ -48,7 +50,7 @@ public class Filler {
         cityM.setLatitude(30.19);
         cityM.setLongitude(37.36);
 
-        List.of(cityS, cityM).forEach(cityRepository::saveOrUpdate);
+        List.of(cityS, cityM, cityNV).forEach(cityRepository::saveOrUpdate);
 
         Distance distance = new Distance();
 
@@ -59,35 +61,53 @@ public class Filler {
 
         distanceRepository.saveOrUpdate(distance);
 
+        distance.setDistance(new BigDecimal("1600"));
+        distance.setFirst(cityRepository.getById(1));
+        distance.setSecond(cityRepository.getById(3));
+        distance.setHours(16);
+
+        distanceRepository.saveOrUpdate(distance);
+
+        distance.setDistance(new BigDecimal("600"));
+        distance.setFirst(cityRepository.getById(2));
+        distance.setSecond(cityRepository.getById(3));
+        distance.setHours(6);
+
+        distanceRepository.saveOrUpdate(distance);
+
         Cargo cargo = new Cargo();
 
         cargo.setNumber("A1S2D3");
         cargo.setName("Flour");
-        cargo.setWeigh(BigDecimal.valueOf(3.5));
+        cargo.setWeight(BigDecimal.valueOf(3.5));
         cargo.setStatus(Cargo.Status.PREPARED);
 
         Cargo cargo1 = new Cargo();
 
         cargo1.setNumber("A1S2D4");
         cargo1.setName("Wood");
-        cargo1.setWeigh(BigDecimal.valueOf(2));
+        cargo1.setWeight(BigDecimal.valueOf(2));
         cargo1.setStatus(Cargo.Status.PREPARED);
 
         List.of(cargo, cargo1).forEach(cargoRepository::saveOrUpdate);
 
         Waypoint waypointS = new Waypoint();
         Waypoint waypointM = new Waypoint();
+        Waypoint waypointNV = new Waypoint();
 
         waypointS.setName("Spb N1");
         waypointM.setName("Msk N1");
+        waypointNV.setName("N-NV N1");
 
         waypointS.setAddress("Kad 117 km");
         waypointM.setAddress("Kaluzhskoe highway 21 km");
+        waypointNV.setAddress("kakoito adress");
 
         waypointS.setCity(cityRepository.getById(1));
         waypointM.setCity(cityRepository.getById(2));
+        waypointNV.setCity(cityRepository.getById(3));
 
-        List.of(waypointS, waypointM).forEach(waypointRepository::saveOrUpdate);
+        List.of(waypointS, waypointM, waypointNV).forEach(waypointRepository::saveOrUpdate);
 
         Action action1 = new Action();
         Action action2 = new Action();

@@ -34,5 +34,14 @@ public class Order {
         PROCESS("В процессе"),
         COMPLETED("Выполнен");
         private final String name;
+
+        public static Status getStatusByName(String name){
+            return switch (name){
+                case "Ожидание" -> WAITING;
+                case "В процессе" -> PROCESS;
+                case "Выполнен" -> COMPLETED;
+                default -> throw new IllegalStateException("Unexpected value: " + name);
+            };
+        }
     }
 }

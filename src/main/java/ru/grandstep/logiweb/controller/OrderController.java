@@ -45,11 +45,8 @@ public class OrderController {
 
     @PostMapping("/save")
     public RedirectView saveOrder(@ModelAttribute ShowOrderFormDTO orderDTO) {
-
         Order order = orderMapper.getOrder(orderDTO);
-
         orderService.save(order);
-
         return new RedirectView("list");
     }
 

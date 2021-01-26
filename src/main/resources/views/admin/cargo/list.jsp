@@ -18,7 +18,7 @@
                     <div class="card-body">
                         <h5 class="card-title">${cargo.number}</h5>
                         <p class="card-text">Содержимое: ${cargo.name}</p>
-                        <p class="card-text">Вес: ${cargo.weigh}</p>
+                        <p class="card-text">Вес: ${cargo.weight}</p>
                         <p class="card-text">Статус: ${cargo.status}</p>
                         <a href="${editCargo}"><i class="fas fa-user-edit"></i></a>
                     </div>

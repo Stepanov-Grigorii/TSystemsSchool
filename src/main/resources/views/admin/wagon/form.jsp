@@ -40,9 +40,19 @@
                     <div id="nameHelp" class="form-text">Укажите вместимость в тоннах.</div>
                 </div>
                 <div class="mb-3">
+                    <form:label path="driverNumber" class="form-label">Размер смены:</form:label>
+                    <form:input path="driverNumber" class="form-control" id="wagon-driverNumber" aria-describedby="nameHelp"/>
+                    <div id="nameHelp" class="form-text">Укажите количество водителей.</div>
+                </div>
+                <div class="mb-3">
                     <form:label path="cityId" class="form-label">Город прибывания:</form:label>
                     <form:select path="cityId" items="${wagonDTO.cityDtoList}" itemLabel="name" itemValue="id" multiple="false" class="form-select"/>
                     <div id="nameHelp" class="form-text">Укажите город.</div>
+                </div>
+                <div class="mb-3">
+                    <form:label path="driverIds" class="form-label">Водители:</form:label>
+                    <form:select path="driverIds" items="${wagonDTO.driverDtoList}" itemLabel="identityNumber" itemValue="id" class="form-select"/>
+                    <div id="nameHelp" class="form-text">Укажите водителей.</div>
                 </div>
                 <div class="mb-3">
                     <form:label path="status" class="form-label">Статус:</form:label>

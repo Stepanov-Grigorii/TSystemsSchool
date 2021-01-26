@@ -17,6 +17,7 @@ public class OrderMapper {
         OrderDTO dto = new OrderDTO();
         dto.setNumber(order.getNumber());
         dto.setStatus(order.getStatus().getName());
+        dto.setCargo(order.getActionDeparture().getCargo().getNumber());
         dto.setDeparture(order.getActionDeparture().getWaypoint().getCity().getName());
         dto.setDestination(order.getActionDestination().getWaypoint().getCity().getName());
         dto.setWagonRegistryNumber(order.getWagon().getRegistryNumber());

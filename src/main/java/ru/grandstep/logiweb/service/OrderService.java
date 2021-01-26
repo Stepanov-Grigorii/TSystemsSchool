@@ -2,7 +2,11 @@ package ru.grandstep.logiweb.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import ru.grandstep.logiweb.checking.DriverCheck;
+import ru.grandstep.logiweb.checking.WagonCheck;
+import ru.grandstep.logiweb.exception.WrongIdException;
 import ru.grandstep.logiweb.model.Action;
+import ru.grandstep.logiweb.model.Driver;
 import ru.grandstep.logiweb.model.Order;
 import ru.grandstep.logiweb.repository.ActionRepository;
 import ru.grandstep.logiweb.repository.OrderRepository;
@@ -15,11 +19,14 @@ public class OrderService {
     private final OrderRepository orderRepository;
     private final ActionService actionService;
     private final WagonService wagonService;
+    private final DriverService driverService;
     private final WaypointService waypointService;
+    private final WagonCheck wagonCheck;
+    private final DriverCheck driverCheck;
 
     public Order getById(Integer id){
         if(id == null || id <= 0){
-            throw new RuntimeException("Wrong id");
+            throw new WrongIdException();
         }
         return orderRepository.getById(id);
     }
@@ -39,6 +46,10 @@ public class OrderService {
     public Order save(Order order){
 
         order.setActionDeparture(actionService.getByCargoId(order.getActionDeparture().getId()));
+        if(!wagonCheck.check(wagonService.getById(order.getWagon().getId()), order.getActionDeparture().getCargo())){
+            throw new RuntimeException("фура не подходит");
+        }
+
         order.setWagon(wagonService.getById(order.getWagon().getId()));
 
         Action action = order.getActionDestination();
@@ -49,12 +60,30 @@ public class OrderService {
 
         order.setActionDestination(savedAction);
 
+        for (Driver driver : driverService.getAllDriversInWagon(order.getWagon().getId())) {
+            if(!driverCheck.check(driver, order)){
+                throw new RuntimeException("Водитель "+ driver.getIdentityNumber() + " не подходит");
+            }
+        }
+
         return orderRepository.saveOrUpdate(order);
+    }
+
+    public Order update(Order order){
+        return orderRepository.saveOrUpdate(order);
+    }
+
+    public List<Order> getByDriverId(Integer driverId){
+        return orderRepository.getByDriverId(driverId);
+    }
+
+    public Order getByNumber(String number){
+        return orderRepository.getByNumber(number);
     }
 
     public void delete(Integer id) {
         if (id == null || id <= 1) {
-            throw new RuntimeException("Wrong id");
+            throw new WrongIdException();
         }
         orderRepository.delete(id);
     }

@@ -18,16 +18,18 @@ public class CargoMapper {
 
     public CargoDTO getCargoDTO(Cargo cargo){
         CargoDTO dto = new CargoDTO();
+        dto.setId(cargo.getId());
         dto.setStatus(cargo.getStatus().getName());
         dto.setName(cargo.getName());
-        dto.setWeight(cargo.getWeigh().toString());
+        dto.setWeight(cargo.getWeight());
         dto.setNumber(cargo.getNumber());
         return dto;
     }
 
     public Cargo getCargo(ShowCargoFormDTO dto){
         Cargo cargo = new Cargo();
-        cargo.setWeigh(new BigDecimal(dto.getWeight()));
+        cargo.setId(dto.getId());
+        cargo.setWeight(new BigDecimal(dto.getWeight()));
         cargo.setName(dto.getName());
         cargo.setNumber(dto.getNumber());
         cargo.setStatus(Cargo.Status.PREPARED);

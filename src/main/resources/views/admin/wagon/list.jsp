@@ -14,8 +14,8 @@
     <div class="d-grid gap-2">
         <a href="${newWagon}" class="btn btn-success" role="button">Новая фура</a>
     </div>
-<table class="table table-light table-hover">
-    <thead>
+    <table class="table table-light table-hover">
+        <thead>
         <tr>
             <th scope="col">#</th>
             <th scope="col">Марка</th>
@@ -24,9 +24,12 @@
             <th scope="col">Размер смены водителей</th>
             <th scope="col">Состояние</th>
             <th scope="col">Город</th>
+            <th scope="col">Заказ</th>
+            <th scope="col">Водители</th>
+            <th scope="col">Изменить</th>
         </tr>
-    </thead>
-    <tbody>
+        </thead>
+        <tbody>
         <c:forEach var="wagon" items="${wagons}" varStatus="status">
             <tr>
                 <th scope="row">${status.count}</th>
@@ -36,10 +39,22 @@
                 <td>${wagon.driverNumber}</td>
                 <td>${wagon.status}</td>
                 <td>${wagon.city}</td>
+                <td>${wagon.order}</td>
+                <td>
+                    <select name="drivers">
+                        <c:forEach items="${wagon.drivers}" var="driver">
+                            <option value="${driver}">
+                                    ${driver}
+                            </option>
+                        </c:forEach>
+                    </select>
+                </td>
+                <c:url value="/admin/wagons/form/${wagon.id}" var="editWagon"/>
+                <td><a href="${editWagon}" type="button" class="btn btn-primary">Изменить</a></td>
             </tr>
         </c:forEach>
-    </tbody>
-</table>
+        </tbody>
+    </table>
 </div>
 <%--<ul>--%>
 <%--    <c:forEach var="wagon" items="${wagons}">--%>
