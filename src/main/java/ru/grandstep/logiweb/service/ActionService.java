@@ -2,6 +2,7 @@ package ru.grandstep.logiweb.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import ru.grandstep.logiweb.exception.NotFoundException;
 import ru.grandstep.logiweb.model.Action;
 import ru.grandstep.logiweb.repository.ActionRepository;
 
@@ -10,7 +11,7 @@ import ru.grandstep.logiweb.repository.ActionRepository;
 public class ActionService {
     private final ActionRepository actionRepository;
 
-    public Action getById(Integer id){
+    public Action getById(Integer id) throws NotFoundException {
         return actionRepository.getById(id);
     }
     public Action getByCargoId(Integer id){
@@ -19,5 +20,13 @@ public class ActionService {
 
     public Action saveOrUpdate(Action action){
         return actionRepository.saveOrUpdate(action);
+    }
+
+    public Action getByCargoIdAndType(Integer cargoId, Action.Type type){
+        return actionRepository.getByCargoIdAndType(cargoId, type);
+    }
+
+    public void delete(Integer id){
+        actionRepository.delete(id);
     }
 }

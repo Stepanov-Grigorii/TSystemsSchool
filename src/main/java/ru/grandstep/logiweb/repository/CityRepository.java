@@ -2,6 +2,7 @@ package ru.grandstep.logiweb.repository;
 
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+import ru.grandstep.logiweb.exception.NotFoundException;
 import ru.grandstep.logiweb.model.City;
 
 import javax.persistence.EntityManager;
@@ -13,10 +14,10 @@ public class CityRepository {
     @PersistenceContext
     private EntityManager entityManager;
 
-    public City getById(Integer id){
+    public City getById(Integer id) throws NotFoundException {
         City city = entityManager.find(City.class, id);
         if(city == null){
-            throw new RuntimeException("city with id" + id + " not found");
+            throw new NotFoundException("city", id);
         }
         return city;
     }

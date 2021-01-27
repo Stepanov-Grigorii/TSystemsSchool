@@ -2,6 +2,7 @@ package ru.grandstep.logiweb.repository;
 
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+import ru.grandstep.logiweb.exception.NotFoundException;
 import ru.grandstep.logiweb.model.Wagon;
 
 import javax.persistence.EntityManager;
@@ -14,10 +15,10 @@ public class WagonRepository {
     @PersistenceContext
     private EntityManager entityManager;
 
-    public Wagon getById(Integer id){
+    public Wagon getById(Integer id) throws NotFoundException {
         Wagon wagon = entityManager.find(Wagon.class, id);
         if(wagon == null){
-            throw new RuntimeException("wagon with id" + id + " not found");
+            throw new NotFoundException("wagon", id);
         }
         return wagon;
     }

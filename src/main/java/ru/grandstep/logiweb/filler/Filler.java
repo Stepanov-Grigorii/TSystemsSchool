@@ -4,6 +4,7 @@ import com.github.javafaker.Faker;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
+import ru.grandstep.logiweb.exception.NotFoundException;
 import ru.grandstep.logiweb.model.*;
 import ru.grandstep.logiweb.repository.*;
 
@@ -27,7 +28,7 @@ public class Filler {
     private final AdminRepository adminRepository;
 
     @PostConstruct
-    private void fill(){
+    private void fill() throws NotFoundException {
         Faker faker = new Faker();
 
         Admin admin = new Admin();

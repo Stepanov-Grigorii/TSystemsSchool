@@ -17,9 +17,9 @@ public class DriverCheck {
     private final DistanceRepository distanceRepository;
 
     public boolean check(Driver driver, Order order){
-//        if(driver.getCurrentCity() != order.getWagon().getCurrentCity()){
-//            return false;
-//        }
+        if(driver.getCurrentCity() != order.getWagon().getCurrentCity()){
+            return false;
+        }
 //        if(orderRepository.getByWagon(driver.getWagon().getRegistryNumber()).getStatus() != Order.Status.COMPLETED){
 //            return false;
 //        }

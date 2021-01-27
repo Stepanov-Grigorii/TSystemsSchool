@@ -2,6 +2,7 @@ package ru.grandstep.logiweb.repository;
 
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+import ru.grandstep.logiweb.exception.NotFoundException;
 import ru.grandstep.logiweb.model.City;
 import ru.grandstep.logiweb.model.Distance;
 
@@ -14,10 +15,10 @@ public class DistanceRepository {
     @PersistenceContext
     private EntityManager entityManager;
 
-    public Distance getById(Integer id){
+    public Distance getById(Integer id) throws NotFoundException {
         Distance distance = entityManager.find(Distance.class, id);
         if(distance == null){
-            throw new RuntimeException("distance with id" + id + " not found");
+            throw new NotFoundException("distance", id);
         }
         return distance;
     }

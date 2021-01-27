@@ -6,6 +6,16 @@
           integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
     <script src="https://kit.fontawesome.com/86bfa24c64.js" crossorigin="anonymous"></script>
     <title>Список фур</title>
+    <style>
+        .icon-button{
+            background: none;
+            padding: 0;
+            border: none;
+        }
+        .little-form{
+            display: inline;
+        }
+    </style>
 </head>
 <body>
 <jsp:include page="../common/header.jsp"/>
@@ -27,6 +37,7 @@
             <th scope="col">Заказ</th>
             <th scope="col">Водители</th>
             <th scope="col">Изменить</th>
+            <th scope="col">Удалить</th>
         </tr>
         </thead>
         <tbody>
@@ -51,6 +62,12 @@
                 </td>
                 <c:url value="/admin/wagons/form/${wagon.id}" var="editWagon"/>
                 <td><a href="${editWagon}" type="button" class="btn btn-primary">Изменить</a></td>
+                <td>
+                    <c:url value="/admin/wagons/delete/${wagon.id}" var="deleteWagon"/>
+                    <form method="post" class="little-form" action="${deleteWagon}">
+                        <button class="icon-button"><i class="fas fa-trash-alt text-primary"></i></button>
+                    </form>
+                </td>
             </tr>
         </c:forEach>
         </tbody>

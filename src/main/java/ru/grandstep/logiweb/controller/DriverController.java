@@ -12,6 +12,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 import ru.grandstep.logiweb.checking.DriverCheck;
 import ru.grandstep.logiweb.dto.DriverDTO;
+import ru.grandstep.logiweb.exception.NotFoundException;
+import ru.grandstep.logiweb.exception.WrongIdException;
 import ru.grandstep.logiweb.mapper.DriverMapper;
 import ru.grandstep.logiweb.model.Driver;
 import ru.grandstep.logiweb.service.DriverService;
@@ -38,7 +40,7 @@ public class DriverController {
     }
 
     @GetMapping({"/form", "form/{id}"})
-    public ModelAndView editDriver(@PathVariable(required = false) Integer id, Model model) {
+    public ModelAndView editDriver(@PathVariable(required = false) Integer id, Model model) throws WrongIdException, NotFoundException {
         if (model.containsAttribute("driver")) {
             return new ModelAndView("admin/driver/form", "driver", Objects.requireNonNull(model.getAttribute("driver")));
         }
@@ -48,7 +50,7 @@ public class DriverController {
     }
 
     @PostMapping("/save")
-    public RedirectView saveDriver(@ModelAttribute @Valid DriverDTO driverDTO, BindingResult bindingResult, RedirectAttributes attributes) {
+    public RedirectView saveDriver(@ModelAttribute @Valid DriverDTO driverDTO, BindingResult bindingResult, RedirectAttributes attributes) throws NotFoundException {
 //        var result = driverCheck.test();
 //        for (Map.Entry<String, List<String>> e : result.entrySet()) {
 //            e.getValue().forEach(v -> bindingResult.rejectValue(e.getKey(), "error.driver", v));
@@ -62,12 +64,29 @@ public class DriverController {
         if (driver.getPassword() != null) {
             driver.setPassword(passwordEncoder.encode(driver.getPassword()));
         }
-        driverService.saveOrUpdate(driver);
+
+        driverService.update(driver);
         return new RedirectView("list");
     }
 
+//    @PostMapping("/save2")
+//    public RedirectView saveDriver2(@ModelAttribute @Valid DriverDTO driverDTO, BindingResult bindingResult, RedirectAttributes attributes) throws NotFoundException {
+//        if (bindingResult.hasErrors()) {
+//            attributes.addFlashAttribute("org.springframework.validation.BindingResult.driver", bindingResult);
+//            attributes.addFlashAttribute("driver", driverDTO);
+//            return new RedirectView("form");
+//        }
+//        Driver driver = driverMapper.getDriver(driverDTO);
+//        if (driver.getPassword() != null) {
+//            driver.setPassword(passwordEncoder.encode(driver.getPassword()));
+//        }
+//
+//        driverService.update(driver);
+//        return new RedirectView("list");
+//    }
+
     @PostMapping("/delete/{id}")
-    public RedirectView deleteDriver(@PathVariable Integer id) {
+    public RedirectView deleteDriver(@PathVariable Integer id) throws WrongIdException {
         driverService.delete(id);
         return new RedirectView("../list");
     }

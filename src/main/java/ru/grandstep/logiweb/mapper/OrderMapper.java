@@ -47,6 +47,7 @@ public class OrderMapper {
         waypoint.setId(dto.getWaypointId());
         actionDestination.setWaypoint(waypoint);
 
+//        order.setId(dto.getId());
         order.setNumber(dto.getNumber());
         order.setActionDeparture(actionDeparture);
         order.setActionDestination(actionDestination);
@@ -73,6 +74,23 @@ public class OrderMapper {
         dto.setCargoDtoList(cargos.stream()
                 .map(cargo -> new ShowOrderFormDTO.CargoDTO(cargo.getId(), cargo.getName()))
                 .collect(Collectors.toList()));
+        dto.setWaypointDtoList(waypoints.stream()
+                .map(waypoint -> new ShowOrderFormDTO.WaypointDTO(waypoint.getId(), waypoint.getName()))
+                .collect(Collectors.toList()));
+        dto.setWagonDtoList(wagons.stream()
+                .map(wagon -> new ShowOrderFormDTO.WagonDTO(wagon.getId(), wagon.getRegistryNumber()))
+                .collect(Collectors.toList()));
+        return dto;
+    }
+
+    public ShowOrderFormDTO getShowOrderFormDTO2(Integer cargoId, List<Wagon> wagons, List<Waypoint> waypoints){
+        ShowOrderFormDTO dto = new ShowOrderFormDTO();
+
+
+        dto.setCargoId(cargoId);
+//        dto.setCargoDtoList(cargos.stream()
+//                .map(cargo -> new ShowOrderFormDTO.CargoDTO(cargo.getId(), cargo.getName()))
+//                .collect(Collectors.toList()));
         dto.setWaypointDtoList(waypoints.stream()
                 .map(waypoint -> new ShowOrderFormDTO.WaypointDTO(waypoint.getId(), waypoint.getName()))
                 .collect(Collectors.toList()));

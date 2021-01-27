@@ -2,6 +2,7 @@ package ru.grandstep.logiweb.repository;
 
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+import ru.grandstep.logiweb.exception.NotFoundException;
 import ru.grandstep.logiweb.model.Cargo;
 
 import javax.persistence.EntityManager;
@@ -14,10 +15,10 @@ public class CargoRepository {
     @PersistenceContext
     private EntityManager entityManager;
 
-    public Cargo getById(Integer id){
+    public Cargo getById(Integer id) throws NotFoundException {
         Cargo cargo = entityManager.find(Cargo.class, id);
         if(cargo == null){
-            throw new RuntimeException("cargo with id" + id + " not found");
+            throw new NotFoundException("cargo", id);
         }
         return cargo;
     }

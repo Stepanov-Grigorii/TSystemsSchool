@@ -32,7 +32,7 @@ public class WagonMapper {
     public List<WagonDTO> setOrderToWagonDTO(List<WagonDTO> wagonDTOList, List<Order> orderList) {
         for (Order order : orderList) {
             for (WagonDTO dto : wagonDTOList) {
-                if (dto.getId().equals(order.getWagon().getId())) {
+                if (dto.getId().equals(order.getWagon().getId()) && order.getStatus() != Order.Status.COMPLETED) {
                     dto.setOrder(order.getNumber());
                 }
             }

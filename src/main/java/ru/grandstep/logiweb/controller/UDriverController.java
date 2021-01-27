@@ -6,6 +6,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 import ru.grandstep.logiweb.dto.DriverDTO;
+import ru.grandstep.logiweb.exception.NotFoundException;
+import ru.grandstep.logiweb.exception.WrongIdException;
 import ru.grandstep.logiweb.mapper.DriverMapper;
 import ru.grandstep.logiweb.model.Cargo;
 import ru.grandstep.logiweb.model.Driver;
@@ -29,7 +31,7 @@ public class UDriverController {
     private final DistanceRepository distanceRepository;
 
     @GetMapping("/info/{id}")
-    public ModelAndView infoDriver(@PathVariable Integer id) {
+    public ModelAndView infoDriver(@PathVariable Integer id) throws WrongIdException, NotFoundException {
         DriverDTO dto;
         if (driverService.getById(id).getWagon() == null) {
             dto = driverMapper.getDriverDTOForInfo(driverService.getById(id), orderService.getByDriverId(id), null);
@@ -42,7 +44,7 @@ public class UDriverController {
 
     @PostMapping("/order-status")
     @ResponseBody
-    public RedirectView changeOrderStatus(@RequestParam(name = "id") Integer driverId, @RequestParam(name = "number") String orderNumber) {
+    public RedirectView changeOrderStatus(@RequestParam(name = "id") Integer driverId, @RequestParam(name = "number") String orderNumber) throws WrongIdException, NotFoundException {
         Order order = orderService.getByNumber(orderNumber);
         Cargo cargo = cargoService.getById(order.getActionDeparture().getCargo().getId());
         Driver driver = driverService.getById(driverId);
@@ -60,7 +62,7 @@ public class UDriverController {
             order.setStatus(Order.Status.COMPLETED);
             wagon.setCurrentCity(order.getActionDestination().getWaypoint().getCity());
 
-            wagonService.saveOrUpdate(wagon);
+            order.setWagon(wagonService.saveOrUpdate(wagon));
             orderService.update(order);
             cargoService.update(cargo);
 

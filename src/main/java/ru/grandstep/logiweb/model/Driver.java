@@ -20,7 +20,7 @@ public class Driver extends User{
     private Status status;
     @ManyToOne
     private City currentCity;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     private Wagon wagon;
     @AllArgsConstructor
     @Getter

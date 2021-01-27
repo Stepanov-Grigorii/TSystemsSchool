@@ -3,6 +3,7 @@ package ru.grandstep.logiweb.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.grandstep.logiweb.dto.CargoDTO;
+import ru.grandstep.logiweb.exception.NotFoundException;
 import ru.grandstep.logiweb.exception.WrongIdException;
 import ru.grandstep.logiweb.mapper.CargoMapper;
 import ru.grandstep.logiweb.model.Action;
@@ -17,10 +18,10 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CargoService {
     private final CargoRepository cargoRepository;
-    private final ActionRepository actionRepository;
+    private final ActionRepository actionService;
     private final WaypointService waypointService;
 
-    public Cargo getById(Integer id){
+    public Cargo getById(Integer id) throws WrongIdException, NotFoundException {
         if(id == null || id <= 0){
             throw new WrongIdException();
         }
@@ -31,12 +32,12 @@ public class CargoService {
         return cargoRepository.getAll();
     }
 
-    public Cargo saveOrUpdate(Cargo cargo, Action action){
+    public Cargo saveOrUpdate(Cargo cargo, Action action) throws NotFoundException {
         Cargo savedCargo = cargoRepository.saveOrUpdate(cargo);
         action.setWaypoint(waypointService.getById(action.getWaypoint().getId()));
         action.setCargo(savedCargo);
         action.setType(Action.Type.LOADING);
-        actionRepository.saveOrUpdate(action);
+        actionService.saveOrUpdate(action);
         return savedCargo;
     }
 
@@ -44,10 +45,11 @@ public class CargoService {
         return cargoRepository.saveOrUpdate(cargo);
     }
 
-    public void delete(Integer id) {
-        if (id == null || id <= 1) {
+    public void delete(Integer id) throws WrongIdException {
+        if (id == null || id < 1) {
             throw new WrongIdException();
         }
+        actionService.delete(actionService.getByCargoId(id).getId());
         cargoRepository.delete(id);
     }
 }

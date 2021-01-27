@@ -7,6 +7,8 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 import ru.grandstep.logiweb.dto.ShowWagonFormDTO;
 import ru.grandstep.logiweb.dto.WagonDTO;
+import ru.grandstep.logiweb.exception.NotFoundException;
+import ru.grandstep.logiweb.exception.WrongIdException;
 import ru.grandstep.logiweb.mapper.WagonMapper;
 import ru.grandstep.logiweb.model.Driver;
 import ru.grandstep.logiweb.model.Wagon;
@@ -37,7 +39,7 @@ public class WagonController {
     }
 
     @GetMapping({"/form", "form/{id}"})
-    public ModelAndView editWagon(@PathVariable(required = false) Integer id){
+    public ModelAndView editWagon(@PathVariable(required = false) Integer id) throws WrongIdException, NotFoundException {
         Wagon wagon = id == null ? new Wagon() : wagonService.getById(id);
         List<Driver> driverList = driverService.getAllFreeDrivers();
         driverList.addAll(driverService.getAllDriversInWagon(id));
@@ -46,7 +48,7 @@ public class WagonController {
     }
 
     @PostMapping("/save")
-    public RedirectView saveWagon(@ModelAttribute ShowWagonFormDTO wagonDTO){
+    public RedirectView saveWagon(@ModelAttribute ShowWagonFormDTO wagonDTO) throws WrongIdException, NotFoundException {
         Wagon wagon = wagonMapper.getWagon(wagonDTO);
         Wagon savedWagon = wagonService.saveOrUpdate(wagon);
         Driver driver;
@@ -66,8 +68,8 @@ public class WagonController {
         return new RedirectView("list");
     }
 
-    @GetMapping("{id}")
-    public RedirectView deleteWagon(@PathVariable Integer id){
+    @PostMapping("/delete/{id}")
+    public RedirectView deleteWagon(@PathVariable Integer id) throws WrongIdException, NotFoundException {
         wagonService.delete(id);
         return new RedirectView("../list");
     }

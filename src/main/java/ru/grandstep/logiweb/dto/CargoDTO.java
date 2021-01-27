@@ -10,6 +10,7 @@ public class CargoDTO {
     private String name;
     private BigDecimal weight;
     private String status;
-    private String waypointName;
+    private String departureName;
+    private String destinationName;
     private String number;
 }

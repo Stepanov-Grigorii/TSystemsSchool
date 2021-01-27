@@ -6,6 +6,17 @@
           integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
     <script src="https://kit.fontawesome.com/86bfa24c64.js" crossorigin="anonymous"></script>
     <title>Список грузов</title>
+    <style>
+        .icon-button {
+            background: none;
+            padding: 0;
+            border: none;
+        }
+
+        .little-form {
+            display: inline;
+        }
+    </style>
 </head>
 <body>
 <jsp:include page="../common/header.jsp"/>
@@ -13,6 +24,8 @@
     <div class="row">
         <c:forEach var="cargo" items="${cargoes}">
             <c:url value="/admin/cargoes/form/${cargo.id}" var="editCargo"/>
+            <c:url value="/admin/cargoes/delete/${cargo.id}" var="deleteCargo"/>
+            <c:url value="/admin/orders/alternativeform/${cargo.id}" var="newOrder"/>
             <div class="col-2 mt-5">
                 <div class="card">
                     <div class="card-body">
@@ -20,7 +33,15 @@
                         <p class="card-text">Содержимое: ${cargo.name}</p>
                         <p class="card-text">Вес: ${cargo.weight}</p>
                         <p class="card-text">Статус: ${cargo.status}</p>
-                        <a href="${editCargo}"><i class="fas fa-user-edit"></i></a>
+                        <p class="card-text">Отправка: ${cargo.departureName}</p>
+                        <c:if test="${cargo.destinationName ne null}"><p class="card-text">Доставка: ${cargo.destinationName}</p></c:if>
+                        <c:if test="${cargo.destinationName eq null}">
+                            <a href="${editCargo}"><i class="far fa-edit"></i></a>
+                            <a href="${newOrder}"><i class="fas fa-truck-loading"></i></a>
+                            <form method="post" class="little-form" action="${deleteCargo}">
+                                <button class="icon-button"><i class="fas fa-trash-alt text-primary"></i></button>
+                            </form>
+                        </c:if>
                     </div>
                 </div>
             </div>

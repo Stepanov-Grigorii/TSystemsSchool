@@ -2,6 +2,7 @@ package ru.grandstep.logiweb.repository;
 
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+import ru.grandstep.logiweb.exception.NotFoundException;
 import ru.grandstep.logiweb.model.Waypoint;
 
 import javax.persistence.EntityManager;
@@ -14,10 +15,10 @@ public class WaypointRepository {
     @PersistenceContext
     private EntityManager entityManager;
 
-    public Waypoint getById(Integer id){
+    public Waypoint getById(Integer id) throws NotFoundException {
         Waypoint waypoint = entityManager.find(Waypoint.class, id);
         if(waypoint == null){
-            throw new RuntimeException("Waypoint with id" + id + " not found");
+            throw new NotFoundException("Waypoint", id);
         }
         return waypoint;
     }

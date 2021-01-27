@@ -2,6 +2,7 @@ package ru.grandstep.logiweb.repository;
 
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+import ru.grandstep.logiweb.exception.NotFoundException;
 import ru.grandstep.logiweb.model.Driver;
 
 import javax.persistence.EntityManager;
@@ -14,10 +15,10 @@ public class DriverRepository {
     @PersistenceContext
     private EntityManager entityManager;
 
-    public Driver getById(Integer id) {
+    public Driver getById(Integer id) throws NotFoundException {
         Driver driver = entityManager.find(Driver.class, id);
         if (driver == null) {
-            throw new RuntimeException("driver with id = " + id + " not found");
+            throw new NotFoundException("driver", id);
         }
         return driver;
     }

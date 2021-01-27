@@ -2,6 +2,7 @@ package ru.grandstep.logiweb.repository;
 
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+import ru.grandstep.logiweb.exception.NotFoundException;
 import ru.grandstep.logiweb.model.Order;
 
 import javax.persistence.EntityManager;
@@ -14,10 +15,10 @@ public class OrderRepository {
     @PersistenceContext
     private EntityManager entityManager;
 
-    public Order getById(Integer id) {
+    public Order getById(Integer id) throws NotFoundException {
         Order order = entityManager.find(Order.class, id);
         if (order == null) {
-            throw new RuntimeException("order with id" + id + " not found");
+            throw new NotFoundException("order", id);
         }
         return order;
     }
@@ -34,6 +35,11 @@ public class OrderRepository {
     public List<Order> getByDriverId(Integer driverId) {
         return (List<Order>) entityManager.createQuery("SELECT o FROM Order o, Driver d WHERE o.wagon.id = d.wagon.id AND d.id = :driverId")
                 .setParameter("driverId", driverId).getResultList();
+    }
+
+    public List<Order> getAllByWagonId(Integer wagonId) {
+        return (List<Order>) entityManager.createQuery("SELECT o FROM Order o WHERE o.wagon.id = :wagonId")
+                .setParameter("wagonId", wagonId).getResultList();
     }
 
     public Order getByNumber(String number) {

@@ -24,7 +24,7 @@ public class Order {
     private Action actionDeparture;
     @OneToOne
     private Action actionDestination;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     private Wagon wagon;
 
     @AllArgsConstructor
