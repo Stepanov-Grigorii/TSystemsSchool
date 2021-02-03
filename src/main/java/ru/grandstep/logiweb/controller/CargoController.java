@@ -38,14 +38,14 @@ public class CargoController {
         Action actionDestination;
         Waypoint departure;
         Waypoint destination = null;
-
+        //в этом цикле формируется cargoDTOList, в котором ставится в соответсвие груз и действия.
         for (Cargo cargo : cargos) {
             actionDeparture = actionService.getByCargoIdAndType(cargo.getId(), Action.Type.LOADING);
             actionDestination = actionService.getByCargoIdAndType(cargo.getId(), Action.Type.UNLOADING);
             departure = actionDeparture.getWaypoint();
-            if(actionDestination.getWaypoint() != null){
+            if (actionDestination.getWaypoint() != null) {
                 destination = actionDestination.getWaypoint();
-            }else {
+            } else {
                 destination = null;
             }
             cargoDTOList.add(cargoMapper.getCargoDTO(cargo,

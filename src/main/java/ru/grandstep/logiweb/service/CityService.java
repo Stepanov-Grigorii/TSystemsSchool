@@ -17,7 +17,7 @@ public class CityService {
         return cityRepository.getById(id);
     }
 
-    public List<City> getAll(){
+    public List<City> getAll() {
         return cityRepository.getAll();
     }
 }

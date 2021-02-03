@@ -61,12 +61,12 @@ public class OrderController {
         return new ModelAndView("admin/order/alternativeform", "orderDTO", dto);
     }
 
-    @PostMapping("/save")
-    public RedirectView saveOrder(@ModelAttribute ShowOrderFormDTO orderDTO) throws WrongIdException, WrongWagonException, WrongDriverException, NotFoundException {
-        Order order = orderMapper.getOrder(orderDTO);
-        orderService.save(order);
-        return new RedirectView("list");
-    }
+//    @PostMapping("/save")
+//    public RedirectView saveOrder(@ModelAttribute ShowOrderFormDTO orderDTO) throws WrongIdException, WrongWagonException, WrongDriverException, NotFoundException {
+//        Order order = orderMapper.getOrder(orderDTO);
+//        orderService.save(order);
+//        return new RedirectView("list");
+//    }
 
     @PostMapping("/save2")
     @ResponseBody

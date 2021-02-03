@@ -47,6 +47,10 @@ public class OrderRepository {
                 .setParameter("number", number).getSingleResult();
     }
 
+    public List<String> getOrderIds(){
+        return (List<String>) entityManager.createQuery("SELECT o.number FROM Order o").getResultList();
+    }
+
     @Transactional
     public Order saveOrUpdate(Order order) {
         return entityManager.merge(order);

@@ -11,8 +11,9 @@ import javax.sql.DataSource;
 @RequiredArgsConstructor
 public class FlywayConfig {
     private final DataSource dataSource;
+
     @PostConstruct
-    private void runMigrations(){
+    private void runMigrations() {
         Flyway flyway = Flyway.configure().dataSource(dataSource).load();
         flyway.migrate();
     }

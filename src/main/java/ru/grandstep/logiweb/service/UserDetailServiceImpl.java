@@ -19,10 +19,11 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserDetailServiceImpl implements UserDetailsService {
     private final UserRepository userRepository;
+
     @Override
     public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
         User user = userRepository.getByLogin(login);
-        if(user == null){
+        if (user == null) {
             throw new UsernameNotFoundException("User with login " + login + " not found.");
         }
         return new UserDetailsImpl(user);
@@ -30,7 +31,7 @@ public class UserDetailServiceImpl implements UserDetailsService {
 
     @AllArgsConstructor
     @Getter
-    public static class UserDetailsImpl implements UserDetails{
+    public static class UserDetailsImpl implements UserDetails {
         private final User user;
 
         @Override

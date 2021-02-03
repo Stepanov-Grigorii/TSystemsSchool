@@ -15,6 +15,7 @@ import ru.grandstep.logiweb.repository.ActionRepository;
 import ru.grandstep.logiweb.repository.OrderRepository;
 
 import java.util.List;
+import java.util.Random;
 
 @Service
 @RequiredArgsConstructor
@@ -63,6 +64,9 @@ public class OrderService {
 
         order.setActionDestination(savedAction);
 
+        //генерация номеров для заказа.
+        order.setNumber(getOrderId());
+
         for (Driver driver : driverService.getAllDriversInWagon(order.getWagon().getId())) {
             if(!driverCheck.check(driver, order)){
                 throw new WrongDriverException("Водитель "+ driver.getIdentityNumber() + " не подходит");
@@ -86,6 +90,22 @@ public class OrderService {
 
     public Order getByNumber(String number){
         return orderRepository.getByNumber(number);
+    }
+
+    public String getOrderId(){
+        return generateId(orderRepository.getOrderIds());
+    }
+
+    private String generateId(List<String> ids){
+        String uniqId = "";
+
+        uniqId += (char)(new Random().nextInt(26) + 'A');
+        uniqId += (char)(new Random().nextInt(26) + 'A');
+        uniqId += (char)(new Random().nextInt(26) + 'A');
+        if(!ids.isEmpty() && ids.contains(uniqId)){
+            return generateId(ids);
+        }
+        return uniqId;
     }
 
     public void delete(Integer id) throws WrongIdException {

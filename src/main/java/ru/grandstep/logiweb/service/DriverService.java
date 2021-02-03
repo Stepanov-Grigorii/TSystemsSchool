@@ -28,7 +28,7 @@ public class DriverService {
     }
 
     public Driver saveOrUpdate(Driver driver) throws NotFoundException {
-        if(driver.getId() != null){
+        if (driver.getId() != null) {
             Driver oldDriver = driverRepository.getById(driver.getId());
             //oldDriver.setName(driver.getName());
             //oldDriver.setSurname(driver.getSurname());
@@ -39,17 +39,16 @@ public class DriverService {
             driver.setIdentityNumber(oldDriver.getIdentityNumber());
 
             //driver = oldDriver;
-        }
-        else {
+        } else {
             driver.setIdentityNumber(DriverID.getUserId(driver.getName(), driver.getSurname(), driverRepository.getIdentityNumbers()));
         }
         return driverRepository.saveOrUpdate(driver);
     }
 
     public Driver update(Driver driver) throws NotFoundException {
-        if(driver.getId() == null){
+        if (driver.getId() == null) {
             driver.setIdentityNumber(DriverID.getUserId(driver.getName(), driver.getSurname(), driverRepository.getIdentityNumbers()));
-        }else {
+        } else {
             Driver oldDriver = driverRepository.getById(driver.getId());
             oldDriver.setName(driver.getName());
             oldDriver.setSurname(driver.getSurname());
@@ -63,11 +62,11 @@ public class DriverService {
         return driverRepository.saveOrUpdate(driver);
     }
 
-    public List<Driver> getAllFreeDrivers(){
+    public List<Driver> getAllFreeDrivers() {
         return driverRepository.getAllFreeDrivers();
     }
 
-    public List<Driver> getAllDriversInWagon(Integer id){
+    public List<Driver> getAllDriversInWagon(Integer id) {
         return driverRepository.getAllDriversInWagon(id);
     }
 

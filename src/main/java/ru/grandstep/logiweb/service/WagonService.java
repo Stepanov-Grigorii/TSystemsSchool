@@ -21,18 +21,18 @@ public class WagonService {
     private final CityService cityService;
 
     public Wagon getById(Integer id) throws WrongIdException, NotFoundException {
-        if(id == null || id <= 0){
+        if (id == null || id <= 0) {
             throw new WrongIdException();
         }
         return wagonRepository.getById(id);
     }
 
-    public List<Wagon> getAll(){
+    public List<Wagon> getAll() {
         return wagonRepository.getAll();
     }
 
     public Wagon saveOrUpdate(Wagon wagon) throws NotFoundException {
-        if(wagon.getCurrentCity().getName() == null){
+        if (wagon.getCurrentCity().getName() == null) {
             wagon.setCurrentCity(cityService.getById(wagon.getCurrentCity().getId()));
         }
         return wagonRepository.saveOrUpdate(wagon);

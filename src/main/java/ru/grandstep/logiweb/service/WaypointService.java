@@ -13,9 +13,10 @@ import java.util.List;
 public class WaypointService {
     private final WaypointRepository waypointRepository;
 
-    public List<Waypoint> getAll(){
+    public List<Waypoint> getAll() {
         return waypointRepository.getAll();
     }
+
     public Waypoint getById(Integer id) throws NotFoundException {
         return waypointRepository.getById(id);
     }

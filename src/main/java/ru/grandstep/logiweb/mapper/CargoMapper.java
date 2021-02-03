@@ -22,7 +22,7 @@ public class CargoMapper {
         dto.setStatus(cargo.getStatus().getName());
         dto.setName(cargo.getName());
         dto.setDepartureName(departure.getName());
-        if(destination != null){
+        if (destination != null) {
             dto.setDestinationName(destination.getName());
         }
         dto.setWeight(cargo.getWeight());

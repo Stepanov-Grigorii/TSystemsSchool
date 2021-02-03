@@ -85,6 +85,12 @@ public class DriverController {
 //        return new RedirectView("list");
 //    }
 
+    @PostMapping("/change-password")
+    public RedirectView changePassword(@ModelAttribute DriverDTO driverDTO) throws NotFoundException {
+        driverService.update(driverMapper.getDriver(driverDTO));
+        return new RedirectView("list");
+    }
+
     @PostMapping("/delete/{id}")
     public RedirectView deleteDriver(@PathVariable Integer id) throws WrongIdException {
         driverService.delete(id);

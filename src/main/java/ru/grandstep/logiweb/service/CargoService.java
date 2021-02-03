@@ -22,13 +22,13 @@ public class CargoService {
     private final WaypointService waypointService;
 
     public Cargo getById(Integer id) throws WrongIdException, NotFoundException {
-        if(id == null || id <= 0){
+        if (id == null || id <= 0) {
             throw new WrongIdException();
         }
         return cargoRepository.getById(id);
     }
 
-    public List<Cargo> getAll(){
+    public List<Cargo> getAll() {
         return cargoRepository.getAll();
     }
 
@@ -41,7 +41,7 @@ public class CargoService {
         return savedCargo;
     }
 
-    public Cargo update(Cargo cargo){
+    public Cargo update(Cargo cargo) {
         return cargoRepository.saveOrUpdate(cargo);
     }
 

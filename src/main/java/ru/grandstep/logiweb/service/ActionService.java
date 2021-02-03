@@ -14,19 +14,20 @@ public class ActionService {
     public Action getById(Integer id) throws NotFoundException {
         return actionRepository.getById(id);
     }
-    public Action getByCargoId(Integer id){
+
+    public Action getByCargoId(Integer id) {
         return actionRepository.getByCargoId(id);
     }
 
-    public Action saveOrUpdate(Action action){
+    public Action saveOrUpdate(Action action) {
         return actionRepository.saveOrUpdate(action);
     }
 
-    public Action getByCargoIdAndType(Integer cargoId, Action.Type type){
+    public Action getByCargoIdAndType(Integer cargoId, Action.Type type) {
         return actionRepository.getByCargoIdAndType(cargoId, type);
     }
 
-    public void delete(Integer id){
+    public void delete(Integer id) {
         actionRepository.delete(id);
     }
 }

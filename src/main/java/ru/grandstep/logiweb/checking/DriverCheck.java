@@ -17,9 +17,9 @@ public class DriverCheck {
     private final DistanceRepository distanceRepository;
 
     public boolean check(Driver driver, Order order){
-        if(driver.getCurrentCity() != order.getWagon().getCurrentCity()){
-            return false;
-        }
+//        if(driver.getCurrentCity() != order.getWagon().getCurrentCity()){
+//            return false;
+//        }
 //        if(orderRepository.getByWagon(driver.getWagon().getRegistryNumber()).getStatus() != Order.Status.COMPLETED){
 //            return false;
 //        }
@@ -30,5 +30,16 @@ public class DriverCheck {
 
     public Map<String, List<String>> test(){
         return Map.of("surname", List.of("Test Message", "Error Message"));
+    }
+
+    public List<Driver> checkedDriverList(List<Driver> drivers, List<Order> orders){
+        for (int i = 0; i < drivers.size(); i++) {
+            for (Order order : orders) {
+                if(!check(drivers.get(i), order)){
+                    drivers.remove(drivers.get(i));
+                }
+            }
+        }
+        return drivers;
     }
 }
