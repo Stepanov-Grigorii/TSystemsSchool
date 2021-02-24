@@ -24,10 +24,14 @@
                     </c:if>
                 </legend>
                 <div class="mb-3">
+                    <c:set var="driverErrors"><form:errors path="name"/></c:set>
+                    <c:if test="${not empty driverErrors}">
+                        <c:set var="nameInvalid" value="is-invalid"/>
+                    </c:if>
                     <form:label path="name" class="form-label">Имя</form:label>
-                    <form:input path="name" class="form-control" id="driver-name" aria-describedby="nameHelp"/>
-                    <form:errors path="name"/>
-                    <div id="nameHelp" class="form-text">Имя водителя не должно быть пустым.</div>
+                    <form:input path="name" class="form-control ${nameInvalid}" id="driver-name"
+                                aria-describedby="nameHelp"/>
+                    <form:errors id="nameHelp" path="name" class="invalid-feedback"/>
                 </div>
 
                 <div class="mb-3">

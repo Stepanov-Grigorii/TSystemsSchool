@@ -1,6 +1,7 @@
 package ru.grandstep.logiweb.service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ru.grandstep.logiweb.checking.DriverCheck;
 import ru.grandstep.logiweb.checking.WagonCheck;
@@ -8,6 +9,8 @@ import ru.grandstep.logiweb.exception.NotFoundException;
 import ru.grandstep.logiweb.exception.WrongDriverException;
 import ru.grandstep.logiweb.exception.WrongIdException;
 import ru.grandstep.logiweb.exception.WrongWagonException;
+import ru.grandstep.logiweb.integration.ActivemqProducer;
+import ru.grandstep.logiweb.mapper.OrderIntegrationMapper;
 import ru.grandstep.logiweb.model.Action;
 import ru.grandstep.logiweb.model.Driver;
 import ru.grandstep.logiweb.model.Order;
@@ -19,6 +22,7 @@ import java.util.Random;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class OrderService {
     private final OrderRepository orderRepository;
     private final ActionService actionService;
@@ -27,6 +31,7 @@ public class OrderService {
     private final WaypointService waypointService;
     private final WagonCheck wagonCheck;
     private final DriverCheck driverCheck;
+    private final ActivemqProducer producer;
 
     public Order getById(Integer id) throws WrongIdException, NotFoundException {
         if(id == null || id <= 0){
@@ -73,11 +78,15 @@ public class OrderService {
             }
         }
 
-        return orderRepository.saveOrUpdate(order);
+        Order savedOrder = orderRepository.saveOrUpdate(order);
+        producer.sendOrder(savedOrder);
+        return savedOrder;
     }
 
     public Order update(Order order){
-        return orderRepository.saveOrUpdate(order);
+        Order savedOrder = orderRepository.saveOrUpdate(order);
+        producer.sendOrder(savedOrder);
+        return savedOrder;
     }
 
     public List<Order> getByDriverId(Integer driverId){

@@ -29,6 +29,7 @@ public class Filler {
 
     @PostConstruct
     private void fill() throws NotFoundException {
+
         Faker faker = new Faker();
 
         Admin admin = new Admin();

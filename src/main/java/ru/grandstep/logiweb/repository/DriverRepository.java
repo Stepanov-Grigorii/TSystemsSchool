@@ -40,6 +40,11 @@ public class DriverRepository {
                 .setParameter("id", id).getResultList();
     }
 
+    public List<Driver> getAllDriversByOrder(Integer id){
+        return (List<Driver>) entityManager.createQuery("SELECT d FROM Driver d, Order o WHERE d.wagon is not null AND o.id = :id AND d.wagon.id = o.wagon.id")
+                .setParameter("id", id).getResultList();
+    }
+
     @Transactional
     public Driver saveOrUpdate(Driver driver) {
         return entityManager.merge(driver);

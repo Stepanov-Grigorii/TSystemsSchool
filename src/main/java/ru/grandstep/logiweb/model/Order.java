@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 import ru.grandstep.logiweb.dto.OrderDTO;
 
 import javax.persistence.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -17,6 +19,8 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     private Integer id;
+
+    private LocalDateTime time;
     private String number;
     @Enumerated(EnumType.STRING)
     private Status status;
@@ -43,5 +47,9 @@ public class Order {
                 default -> throw new IllegalStateException("Unexpected value: " + name);
             };
         }
+    }
+    @PrePersist
+    private void createTime(){
+        this.time = LocalDateTime.now();
     }
 }

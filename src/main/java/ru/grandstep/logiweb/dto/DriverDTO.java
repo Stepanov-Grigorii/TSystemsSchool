@@ -9,10 +9,11 @@ import java.util.List;
 @Data
 public class DriverDTO {
     private Integer id;
-    @NotBlank
+    @NotBlank(message = "Имя не должно быть пустым")
     private String name;
     @NotBlank(message = "Фамилия не должна быть пустой")
     private String surname;
+    @NotBlank(message = "Логин не должен быть пустым")
     private String login;
     private String password;
     private String email;

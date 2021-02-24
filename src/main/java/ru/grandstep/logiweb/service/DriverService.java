@@ -1,11 +1,12 @@
 package ru.grandstep.logiweb.service;
 
 import lombok.RequiredArgsConstructor;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
 import ru.grandstep.logiweb.exception.NotFoundException;
 import ru.grandstep.logiweb.exception.WrongIdException;
 import ru.grandstep.logiweb.filler.DriverID;
-import ru.grandstep.logiweb.model.City;
 import ru.grandstep.logiweb.model.Driver;
 import ru.grandstep.logiweb.repository.DriverRepository;
 
@@ -15,6 +16,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class DriverService {
     private final DriverRepository driverRepository;
+    private final Logger rootLogger = LogManager.getRootLogger();
+    private final Logger driverLogger = LogManager.getLogger(DriverService.class);
 
     public Driver getById(Integer id) throws WrongIdException, NotFoundException {
         if (id == null || id <= 0) {
@@ -30,18 +33,11 @@ public class DriverService {
     public Driver saveOrUpdate(Driver driver) throws NotFoundException {
         if (driver.getId() != null) {
             Driver oldDriver = driverRepository.getById(driver.getId());
-            //oldDriver.setName(driver.getName());
-            //oldDriver.setSurname(driver.getSurname());
-            //oldDriver.setWagon(driver.getWagon());
-            //oldDriver.setLogin(driver.getLogin());
-            //oldDriver.setHoursInCurrentMonth(driver.getHoursInCurrentMonth());
-
             driver.setIdentityNumber(oldDriver.getIdentityNumber());
-
-            //driver = oldDriver;
         } else {
             driver.setIdentityNumber(DriverID.getUserId(driver.getName(), driver.getSurname(), driverRepository.getIdentityNumbers()));
         }
+        driverLogger.info("Driver with id " + driver.getId() + " added");
         return driverRepository.saveOrUpdate(driver);
     }
 
@@ -59,7 +55,10 @@ public class DriverService {
             }
             driver = oldDriver;
         }
-        return driverRepository.saveOrUpdate(driver);
+
+        Driver savedDriver = driverRepository.saveOrUpdate(driver);
+        driverLogger.info("Driver with id " + savedDriver.getId() + " added");
+        return savedDriver;
     }
 
     public List<Driver> getAllFreeDrivers() {
@@ -68,6 +67,10 @@ public class DriverService {
 
     public List<Driver> getAllDriversInWagon(Integer id) {
         return driverRepository.getAllDriversInWagon(id);
+    }
+
+    public List<Driver> getAllDriversByOrder(Integer id){
+        return driverRepository.getAllDriversByOrder(id);
     }
 
     public void delete(Integer id) throws WrongIdException {
