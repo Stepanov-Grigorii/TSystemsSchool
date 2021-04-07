@@ -52,6 +52,14 @@ public class OrderService {
 //        return orderRepository.saveOrUpdate(order);
 //    }
 
+    /**
+     * @param order
+     * @return
+     * @throws WrongIdException
+     * @throws WrongWagonException
+     * @throws WrongDriverException
+     * @throws NotFoundException
+     */
     public Order save(Order order) throws WrongIdException, WrongWagonException, WrongDriverException, NotFoundException {
 
         order.setActionDeparture(actionService.getByCargoId(order.getActionDeparture().getId()));

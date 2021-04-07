@@ -51,10 +51,6 @@ public class DriverController {
 
     @PostMapping("/save")
     public RedirectView saveDriver(@ModelAttribute @Valid DriverDTO driverDTO, BindingResult bindingResult, RedirectAttributes attributes) throws NotFoundException {
-//        var result = driverCheck.test();
-//        for (Map.Entry<String, List<String>> e : result.entrySet()) {
-//            e.getValue().forEach(v -> bindingResult.rejectValue(e.getKey(), "error.driver", v));
-//        }
         if (bindingResult.hasErrors()) {
             attributes.addFlashAttribute("org.springframework.validation.BindingResult.driver", bindingResult);
             attributes.addFlashAttribute("driver", driverDTO);

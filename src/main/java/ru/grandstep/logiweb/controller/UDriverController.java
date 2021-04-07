@@ -19,6 +19,8 @@ import ru.grandstep.logiweb.service.DriverService;
 import ru.grandstep.logiweb.service.OrderService;
 import ru.grandstep.logiweb.service.WagonService;
 
+import java.util.List;
+
 @Controller
 @RequestMapping("user/drivers")
 @RequiredArgsConstructor
@@ -48,8 +50,10 @@ public class UDriverController {
         Order order = orderService.getByNumber(orderNumber);
         Cargo cargo = cargoService.getById(order.getActionDeparture().getCargo().getId());
         Driver driver = driverService.getById(driverId);
+        List<Driver> drivers;
         Wagon wagon = wagonService.getById(driver.getWagon().getId());
         Integer hours = driver.getHoursInCurrentMonth();
+        Integer h;
 
         if (order.getStatus() == Order.Status.WAITING) {
             cargo.setStatus(Cargo.Status.SHIPPED);
@@ -68,6 +72,15 @@ public class UDriverController {
 
             hours += distanceRepository.getByCities(order.getActionDeparture().getWaypoint().getCity(),
                     order.getActionDestination().getWaypoint().getCity()).getHours();
+
+            drivers = driverService.getAllDriversInWagon(wagon.getId());
+            for (Driver d : drivers) {
+                h = d.getHoursInCurrentMonth() + hours;
+                d.setHoursInCurrentMonth(h);
+                driverService.saveOrUpdate(d);
+            }
+
+
             driver.setHoursInCurrentMonth(hours);
             driverService.saveOrUpdate(driver);
         }

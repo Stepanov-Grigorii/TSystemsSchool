@@ -2,8 +2,10 @@ package ru.grandstep.logiweb.mapper;
 
 import org.springframework.stereotype.Component;
 import ru.grandstep.logiweb.dto.DriverDTO;
+import ru.grandstep.logiweb.dto.DriverIntegrationDTO;
 import ru.grandstep.logiweb.model.Driver;
 import ru.grandstep.logiweb.model.Order;
+import ru.grandstep.logiweb.model.Wagon;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -62,5 +64,27 @@ public class DriverMapper {
         driver.setPassword(dto.getPassword());
         driver.setEmail(dto.getEmail());
         return driver;
+    }
+
+    public DriverIntegrationDTO getDriverInterDTO(Driver driver, List<Order> orders) {
+        DriverIntegrationDTO dto = new DriverIntegrationDTO();
+        dto.setId(driver.getId());
+        dto.setName(driver.getName());
+        dto.setSurname(driver.getSurname());
+        dto.setLogin(driver.getLogin());
+        dto.setEmail(driver.getEmail());
+        dto.setIdentityNumber(driver.getIdentityNumber());
+        dto.setHoursInCurrentMonth(driver.getHoursInCurrentMonth());
+        dto.setOccupied(orders.isEmpty());
+        if (driver.getStatus() != null) {
+            dto.setStatus(driver.getStatus().getName());
+        }
+        if (driver.getCurrentCity() != null) {
+            dto.setCity(dto.getCity());
+        }
+        if (driver.getWagon() != null) {
+            dto.setWagon(driver.getWagon().getRegistryNumber());
+        }
+        return dto;
     }
 }

@@ -2,8 +2,11 @@ package ru.grandstep.logiweb.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 import ru.grandstep.logiweb.dto.CargoDTO;
 import ru.grandstep.logiweb.dto.ShowCargoFormDTO;
@@ -17,8 +20,10 @@ import ru.grandstep.logiweb.service.ActionService;
 import ru.grandstep.logiweb.service.CargoService;
 import ru.grandstep.logiweb.service.WaypointService;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Controller
@@ -58,14 +63,26 @@ public class CargoController {
     }
 
     @GetMapping({"/form", "form/{id}"})
-    public ModelAndView editCargo(@PathVariable(required = false) Integer id) throws WrongIdException, NotFoundException {
+    public ModelAndView editCargo(@PathVariable(required = false) Integer id, Model model) throws WrongIdException, NotFoundException {
+        if (model.containsAttribute("cargoDTO")) {
+            return new ModelAndView("admin/cargo/form", "cargoDTO", Objects.requireNonNull(model.getAttribute("cargoDTO")));
+        }
         Cargo cargo = id == null ? new Cargo() : cargoService.getById(id);
         ShowCargoFormDTO dto = cargoMapper.getShowCargoFormDTO(id, cargo, waypointService.getAll());
         return new ModelAndView("admin/cargo/form", "cargoDTO", dto);
     }
 
     @PostMapping("/save")
-    public RedirectView saveCargo(@ModelAttribute ShowCargoFormDTO dto) throws NotFoundException, WrongIdException {
+    public RedirectView saveCargo(@ModelAttribute @Valid ShowCargoFormDTO dto, BindingResult bindingResult, RedirectAttributes attributes) throws NotFoundException, WrongIdException {
+        if (bindingResult.hasErrors()) {
+            attributes.addFlashAttribute("org.springframework.validation.BindingResult.cargoDTO", bindingResult);
+            attributes.addFlashAttribute("cargoDTO", dto);
+            if(dto.getId() == null){
+                return new RedirectView("form");
+            }
+            return new RedirectView("form/" + dto.getId());
+
+        }
         Cargo cargo = cargoMapper.getCargo(dto);
         Action action = cargoMapper.getAction(dto);
         if (cargo.getId() != null) {

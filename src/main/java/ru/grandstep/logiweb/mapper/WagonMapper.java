@@ -3,6 +3,7 @@ package ru.grandstep.logiweb.mapper;
 import org.springframework.stereotype.Component;
 import ru.grandstep.logiweb.dto.ShowWagonFormDTO;
 import ru.grandstep.logiweb.dto.WagonDTO;
+import ru.grandstep.logiweb.dto.WagonIntegrationDTO;
 import ru.grandstep.logiweb.model.City;
 import ru.grandstep.logiweb.model.Driver;
 import ru.grandstep.logiweb.model.Order;
@@ -88,6 +89,19 @@ public class WagonMapper {
                 .map(driver -> new ShowWagonFormDTO.DriverDto(driver.getId(), driver.getIdentityNumber()))
                 .collect(Collectors.toList()));
 
+        return dto;
+    }
+
+    public WagonIntegrationDTO getWagonInterDTO(Wagon wagon, List<Order> orders){
+        WagonIntegrationDTO dto = new WagonIntegrationDTO();
+        dto.setId(wagon.getId());
+        dto.setRegistryNumber(wagon.getRegistryNumber());
+        dto.setDriverNumber(wagon.getDriverNumber());
+        dto.setCapacity(wagon.getCapacity());
+        dto.setBrand(wagon.getBrand());
+        dto.setStatus(wagon.getStatus().getName());
+        dto.setCity(wagon.getCurrentCity().getName());
+        dto.setOccupied(orders.isEmpty());
         return dto;
     }
 }

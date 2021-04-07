@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import ru.grandstep.logiweb.exception.NotFoundException;
 import ru.grandstep.logiweb.exception.WrongIdException;
 import ru.grandstep.logiweb.filler.DriverID;
+import ru.grandstep.logiweb.integration.ActivemqDriverProducer;
 import ru.grandstep.logiweb.model.Driver;
 import ru.grandstep.logiweb.repository.DriverRepository;
 
@@ -16,6 +17,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class DriverService {
     private final DriverRepository driverRepository;
+    private final ActivemqDriverProducer producer;
     private final Logger rootLogger = LogManager.getRootLogger();
     private final Logger driverLogger = LogManager.getLogger(DriverService.class);
 
@@ -38,7 +40,10 @@ public class DriverService {
             driver.setIdentityNumber(DriverID.getUserId(driver.getName(), driver.getSurname(), driverRepository.getIdentityNumbers()));
         }
         driverLogger.info("Driver with id " + driver.getId() + " added");
-        return driverRepository.saveOrUpdate(driver);
+
+        Driver savedDriver = driverRepository.saveOrUpdate(driver);
+        producer.sendDriver(savedDriver);
+        return savedDriver;
     }
 
     public Driver update(Driver driver) throws NotFoundException {
@@ -58,6 +63,7 @@ public class DriverService {
 
         Driver savedDriver = driverRepository.saveOrUpdate(driver);
         driverLogger.info("Driver with id " + savedDriver.getId() + " added");
+        producer.sendDriver(savedDriver);
         return savedDriver;
     }
 

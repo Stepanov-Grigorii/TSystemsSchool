@@ -25,9 +25,14 @@
                     </c:if>
                 </legend>
                 <div class="mb-3">
+                    <c:set var="cargoErrors"><form:errors path="name"/></c:set>
+                    <c:if test="${not empty cargoErrors}">
+                        <c:set var="nameInvalid" value="is-invalid"/>
+                    </c:if>
                     <form:label path="name" class="form-label">Содержимое</form:label>
-                    <form:input path="name" class="form-control" id="cargo-name" aria-describedby="nameHelp"/>
-                    <div id="nameHelp" class="form-text">Пункт "Содержимое" не должен быть пустым.</div>
+                    <form:input path="name" class="form-control ${nameInvalid}" id="cargo-name"
+                                aria-describedby="nameHelp"/>
+                    <form:errors id="nameHelp" path="name" class="invalid-feedback"/>
                 </div>
                 <div class="mb-3">
                     <form:label path="number" class="form-label">Номер</form:label>

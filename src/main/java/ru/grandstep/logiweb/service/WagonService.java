@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.grandstep.logiweb.exception.NotFoundException;
 import ru.grandstep.logiweb.exception.WrongIdException;
+import ru.grandstep.logiweb.integration.ActivemqProducer;
 import ru.grandstep.logiweb.model.Driver;
 import ru.grandstep.logiweb.model.Order;
 import ru.grandstep.logiweb.model.Wagon;
@@ -17,7 +18,7 @@ import java.util.List;
 public class WagonService {
     private final WagonRepository wagonRepository;
     private final DriverService driverService;
-    //private final OrderRepository orderService;
+    private final ActivemqProducer producer;
     private final CityService cityService;
 
     public Wagon getById(Integer id) throws WrongIdException, NotFoundException {
@@ -35,7 +36,10 @@ public class WagonService {
         if (wagon.getCurrentCity().getName() == null) {
             wagon.setCurrentCity(cityService.getById(wagon.getCurrentCity().getId()));
         }
-        return wagonRepository.saveOrUpdate(wagon);
+
+        Wagon savedWagon = wagonRepository.saveOrUpdate(wagon);
+        producer.sendWagon(savedWagon);
+        return savedWagon;
     }
 
     public void delete(Integer id) throws WrongIdException, NotFoundException {

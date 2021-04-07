@@ -2,10 +2,8 @@ package ru.grandstep.logiweb.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 import ru.grandstep.logiweb.checking.WagonCheck;
 import ru.grandstep.logiweb.dto.OrderDTO;
@@ -72,12 +70,7 @@ public class OrderController {
 
     @PostMapping("/save2")
     @ResponseBody
-    public RedirectView saveOrder2(@RequestParam(name = "id") Integer cargoId, @ModelAttribute ShowOrderFormDTO orderDTO, BindingResult bindingResult, RedirectAttributes attributes) throws WrongIdException, WrongWagonException, WrongDriverException, NotFoundException {
-        if (bindingResult.hasErrors()) {
-            attributes.addFlashAttribute("org.springframework.validation.BindingResult.order", bindingResult);
-            attributes.addFlashAttribute("order", orderDTO);
-            return new RedirectView("alternativeform/{id}");
-        }
+    public RedirectView saveOrder2(@RequestParam(name = "id") Integer cargoId, @ModelAttribute ShowOrderFormDTO orderDTO) throws WrongIdException, WrongWagonException, WrongDriverException, NotFoundException {
         orderDTO.setCargoId(cargoId);
         Order order = orderMapper.getOrder(orderDTO);
         orderService.save(order);
